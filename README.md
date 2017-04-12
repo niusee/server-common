@@ -1,7 +1,6 @@
 ### server-common - 服务公共库
 
 牛视服务公共库，包括：
- - bootstrap：服务启动器
  - config：配置公共库
  - logger：日记公共库
  - router：路由公共库
