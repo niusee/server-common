@@ -151,10 +151,8 @@ public class ProcessRunner {
         if (onStop) {
             return;
         }
-
         // 测试运行参数
         log.debug("Process: {}", commandParamsList);
-
         ProcessBuilder pb = new ProcessBuilder(commandParamsList).directory(null);
         // NOTE: 针对FFmpeg、Melt等工具，忽略掉Error Stream
         pb.redirectErrorStream(true);
@@ -163,32 +161,29 @@ public class ProcessRunner {
         if (callback != null) {
             callback.onStart(ProcessRunner.this);
         }
-
         // 结果
         boolean success = false;
         // 读取命令运行输出信息
-        BufferedReader br = null;
+        BufferedReader bufferedReader = null;
         try {
             process = pb.start();
-            br = wrapInReader(process);
-
+            bufferedReader = wrapInReader(process);
             // 线程读取输出信息
             String message;
-            while (!onStop && (message = br.readLine()) != null) {
+            while (!onStop && (message = bufferedReader.readLine()) != null) {
                 if (callback != null) {
                     callback.onMessage(ProcessRunner.this, message);
                 }
             }
-
             // 等待结果
             success = throwOnError(process);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             // 关闭流信息
-            if (br != null) {
+            if (bufferedReader != null) {
                 try {
-                    br.close();
+                    bufferedReader.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -196,7 +191,6 @@ public class ProcessRunner {
             destroyProcess();
             // 参数清除
             commandParamsList.clear();
-
             // 如果被取消的，就不回调结果
             if (!onStop && callback != null) {
                 callback.onComplete(ProcessRunner.this, success);

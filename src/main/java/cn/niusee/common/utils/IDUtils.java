@@ -53,7 +53,42 @@ public class IDUtils {
      * @return 16位数的随机字符ID
      */
     public static String randomIdIn16Bits() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 16; i++) {
+            sb.append(CHARS.charAt((int) ((Math.random() * 100000) % CHARS.length())));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 产生16位数的随机ID的另一种方式
+     *
+     * @return 16位数的随机字符ID
+     */
+    public static String randomIdIn16Bits2() {
         return MD5Utils.md5(UUID.randomUUID() + String.valueOf(System.currentTimeMillis()))
                 .substring(0, 16);
+    }
+
+    /**
+     * 产生32位数的随机ID
+     *
+     * @return 32位数的随机字符ID
+     */
+    public static String randomIdIn32Bits() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 32; i++) {
+            sb.append(CHARS.charAt((int) ((Math.random() * 100000) % CHARS.length())));
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 产生32位数的随机ID的另一种方式
+     *
+     * @return 32位数的随机字符ID
+     */
+    public static String randomIdIn32Bits2() {
+        return MD5Utils.md5(UUID.randomUUID() + String.valueOf(System.currentTimeMillis()));
     }
 }

@@ -7,6 +7,7 @@ package cn.niusee.common.test.httpclient;
 
 import cn.niusee.common.httpclient.HttpClient;
 import junit.framework.TestCase;
+import okhttp3.Response;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -18,8 +19,13 @@ import java.io.IOException;
  */
 public class TestHttpClient extends TestCase {
 
-    @Test(expected = IOException.class)
     public void testGet() throws IOException {
-        HttpClient.get("http://www.baidu.com");
+        Response response = HttpClient.get("http://www.baidu.com");
+        assertEquals(200, response.code());
+    }
+
+    public void testGetNotFound() throws IOException {
+        Response response = HttpClient.get("http://www.baiduuu.com");
+        assertEquals(404, response.code());
     }
 }

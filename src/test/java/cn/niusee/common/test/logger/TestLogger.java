@@ -17,7 +17,11 @@ public class TestLogger extends TestCase {
 
     private LoggerHelper logger = new LoggerHelper(TestLogger.class);
 
-    public void testDebug() {
-        logger.debug("test debug");
+    public void testLog() {
+        logger.trace("test");
+        logger.debug("test");
+        logger.info("test");
+        logger.warn("test");
+        logger.error("test");
     }
 }
