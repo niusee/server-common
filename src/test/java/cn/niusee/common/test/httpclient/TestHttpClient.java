@@ -8,7 +8,6 @@ package cn.niusee.common.test.httpclient;
 import cn.niusee.common.httpclient.HttpClient;
 import junit.framework.TestCase;
 import okhttp3.Response;
-import org.junit.Test;
 
 import java.io.IOException;
 

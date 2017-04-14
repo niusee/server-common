@@ -6,17 +6,42 @@
 package cn.niusee.common.router;
 
 /**
- * 服务错误抛出
+ * 路由错误抛出类
  *
  * @author Qianliang Zhang
  */
-public class RouteException extends Exception {
+class RouteException extends Exception {
+    /**
+     * 错误代码
+     */
+    private int errorCode;
 
-    public RouteException() {
-        super();
+    /**
+     * 错误信息
+     */
+    private String errorMessage;
+
+    RouteException(int errorCode, String message) {
+        super(message);
+        this.errorCode = errorCode;
+        this.errorMessage = message;
     }
 
-    public RouteException(String message) {
-        super(message);
+    /**
+     * 获取错误代码
+     *
+     * @return 错误代码
+     */
+    int getErrorCode() {
+        return errorCode;
+    }
+
+    /**
+     * 获取错误信息
+     *
+     * @return 错误信息
+     */
+    String getErrorMessage() {
+        return errorMessage;
     }
 }

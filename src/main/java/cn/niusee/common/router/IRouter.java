@@ -12,6 +12,16 @@ package cn.niusee.common.router;
  */
 public interface IRouter {
     /**
+     * 没控制的错误代码
+     */
+    int UNKNOWN_ERROR_CODE = -4000;
+
+    /**
+     * 没控制的错误信息
+     */
+    String UNKNOWN_ERROR_MSG = "Unknown error, detail: ";
+
+    /**
      * 路由启动方法
      */
     void route();
