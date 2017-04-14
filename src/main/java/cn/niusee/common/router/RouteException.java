@@ -10,7 +10,13 @@ package cn.niusee.common.router;
  *
  * @author Qianliang Zhang
  */
-class RouteException extends Exception {
+public class RouteException extends Exception {
+
+    /**
+     * 服务响应代码
+     */
+    private int responseCode;
+
     /**
      * 错误代码
      */
@@ -21,10 +27,20 @@ class RouteException extends Exception {
      */
     private String errorMessage;
 
-    RouteException(int errorCode, String message) {
+    public RouteException(int responseCode, int errorCode, String message) {
         super(message);
+        this.responseCode = responseCode;
         this.errorCode = errorCode;
         this.errorMessage = message;
+    }
+
+    /**
+     * 获取服务响应代码
+     *
+     * @return 服务响应代码
+     */
+    public int getResponseCode() {
+        return responseCode;
     }
 
     /**
@@ -32,7 +48,7 @@ class RouteException extends Exception {
      *
      * @return 错误代码
      */
-    int getErrorCode() {
+    public int getErrorCode() {
         return errorCode;
     }
 
@@ -41,7 +57,7 @@ class RouteException extends Exception {
      *
      * @return 错误信息
      */
-    String getErrorMessage() {
+    public String getErrorMessage() {
         return errorMessage;
     }
 }

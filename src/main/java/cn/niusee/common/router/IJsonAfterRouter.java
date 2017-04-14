@@ -22,12 +22,8 @@ public interface IJsonAfterRouter extends IRouter {
         exception(Exception.class, (exception, request, response) -> {
             response.type("application/json");
             if (exception instanceof RouteException) {
-                if (exception instanceof User400Exception) {
-                    response.status(400);
-                } else if (exception instanceof Server500Exception) {
-                    response.status(500);
-                }
                 RouteException routeException = (RouteException) exception;
+                response.status(routeException.getResponseCode());
                 response.body(combineErrorMsg(routeException.getErrorCode(), routeException.getErrorMessage()));
             } else {
                 response.status(400);

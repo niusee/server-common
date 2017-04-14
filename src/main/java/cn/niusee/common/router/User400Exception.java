@@ -6,13 +6,13 @@
 package cn.niusee.common.router;
 
 /**
- * 用户操作错误的错误抛出类
+ * 用户请求参数错误的错误抛出类
  *
  * @author Qianliang Zhang
  */
 public class User400Exception extends RouteException {
 
     public User400Exception(int errorCode, String message) {
-        super(errorCode, message);
+        super(400, errorCode, message);
     }
 }
