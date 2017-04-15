@@ -12,7 +12,7 @@ package cn.niusee.common.router;
  */
 public class Server503Exception extends RouteException {
 
-    Server503Exception(int errorCode, String message) {
+    public Server503Exception(int errorCode, String message) {
         super(503, errorCode, message);
     }
 }

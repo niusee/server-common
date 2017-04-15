@@ -12,7 +12,7 @@ package cn.niusee.common.router;
  */
 public class Server500Exception extends RouteException {
 
-    Server500Exception(int errorCode, String message) {
+    public Server500Exception(int errorCode, String message) {
         super(500, errorCode, message);
     }
 }
