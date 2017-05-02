@@ -82,7 +82,14 @@ public class ProcessRunner {
     private boolean throwOnError(Process p) {
         log.debug("Waiting for process to exist");
         try {
-            return p.waitFor(1, TimeUnit.SECONDS);
+            boolean success = p.waitFor(1, TimeUnit.SECONDS);
+            int exitValue = p.exitValue();
+            if (success && exitValue == 0) {
+                return true;
+            } else {
+                log.error("Process running error, exit value: {}", exitValue);
+                return false;
+            }
         } catch (InterruptedException e) {
             log.error("Timed out waiting for process to finish");
             return false;

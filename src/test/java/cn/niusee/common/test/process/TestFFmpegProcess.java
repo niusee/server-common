@@ -18,7 +18,8 @@ public class TestFFmpegProcess extends TestCase {
 
     public void testFFmpegProgress() {
         ProcessRunner runner = new ProcessRunner("ffmpeg");
-        runner.addParams(new String[]{"-h"});
+        runner.addParams(new String[]{"-i", "/usr/local/var/www/vod/resource/10_1.flv", "-preset",
+                "medium", "-movflags", "faststart", "/usr/local/var/www/vod/resource/1/12345678/source.mp4"});
         runner.setOnScriptRunnerCallback(new OnProcessRunnerCallback() {
             @Override
             public void onStart(ProcessRunner processRunner) {
@@ -32,7 +33,7 @@ public class TestFFmpegProcess extends TestCase {
 
             @Override
             public void onComplete(ProcessRunner processRunner, boolean success) {
-                System.out.println("runner complete");
+                System.out.println("runner complete: " + success);
             }
         });
         runner.execute();
