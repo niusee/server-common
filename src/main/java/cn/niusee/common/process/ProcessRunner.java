@@ -83,12 +83,16 @@ public class ProcessRunner {
         log.debug("Waiting for process to exist");
         try {
             boolean success = p.waitFor(1, TimeUnit.SECONDS);
-            int exitValue = p.exitValue();
-            if (success && exitValue == 0) {
-                return true;
-            } else {
-                log.error("Process running error, exit value: {}", exitValue);
+            if (!success) {
+                // 不成功直接退出
                 return false;
+            } else {
+                // 成功，还要检查退出值
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    log.error("Process running error, exit value: {}", exitValue);
+                }
+                return exitValue == 0;
             }
         } catch (InterruptedException e) {
             log.error("Timed out waiting for process to finish");
