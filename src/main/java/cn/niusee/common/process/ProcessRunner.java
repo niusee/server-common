@@ -95,7 +95,7 @@ public class ProcessRunner {
                 return exitValue == 0;
             }
         } catch (InterruptedException e) {
-            log.error("Timed out waiting for process to finish");
+            log.debug("Timed out waiting for process to finish");
             return false;
         }
     }
