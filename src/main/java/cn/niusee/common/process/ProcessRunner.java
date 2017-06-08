@@ -94,7 +94,7 @@ public class ProcessRunner {
                 }
                 return exitValue == 0;
             }
-        } catch (InterruptedException e) {
+        } catch (Throwable e) {
             log.debug("Timed out waiting for process to finish");
             return false;
         }
@@ -158,7 +158,7 @@ public class ProcessRunner {
      * 运行
      */
     public void execute() {
-        // 如果是被取消,直接忽略
+        // 如果是被取消，直接忽略
         if (onStop) {
             return;
         }

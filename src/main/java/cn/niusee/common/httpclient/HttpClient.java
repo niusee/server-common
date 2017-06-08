@@ -25,7 +25,7 @@ public final class HttpClient {
     /**
      * IO请求错误的代码
      */
-    public static final int IO_ERROR = 600;
+    private static final int IO_ERROR = 600;
 
     /**
      * Form表单请求方式
