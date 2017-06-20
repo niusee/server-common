@@ -14,13 +14,7 @@ import java.io.IOException;
  *
  * @author Qianliang Zhang
  */
-public final class HttpClient {
-    /**
-     * 防止集成
-     */
-    private HttpClient() {
-
-    }
+public class HttpClient {
 
     /**
      * IO请求错误的代码
@@ -40,7 +34,7 @@ public final class HttpClient {
     /**
      * 客户端
      */
-    private final static OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient();
 
     /**
      * Get请求
@@ -49,11 +43,11 @@ public final class HttpClient {
      * @return 请求结果
      * @throws IOException 请求抛出错误
      */
-    public static Response get(String url) throws IOException {
+    public Response get(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-        return client.newCall(request).execute();
+        return newDirectCall(request);
     }
 
     /**
@@ -62,11 +56,11 @@ public final class HttpClient {
      * @param url      请求地址
      * @param listener 请求结果回调
      */
-    public static void getAsync(String url, IHttpListener listener) {
+    public void getAsync(String url, IHttpListener listener) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-        newCallAsync(request, listener);
+        newAsyncCall(request, listener);
     }
 
     /**
@@ -75,11 +69,11 @@ public final class HttpClient {
      * @param url      请求地址
      * @param callback 请求结果回调
      */
-    public static void getAsync(String url, Callback callback) {
+    public void getAsync(String url, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
-        client.newCall(request).enqueue(callback);
+        newAsyncCall(request, callback);
     }
 
     /**
@@ -90,13 +84,13 @@ public final class HttpClient {
      * @return 请求结果
      * @throws IOException 请求抛出错误
      */
-    public static Response postJson(String url, String json) throws IOException {
+    public Response postJson(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        return client.newCall(request).execute();
+        return newDirectCall(request);
     }
 
     /**
@@ -106,13 +100,13 @@ public final class HttpClient {
      * @param json     Json请求体
      * @param listener 请求结果回调
      */
-    public static void postJsonAsync(String url, String json, IHttpListener listener) {
+    public void postJsonAsync(String url, String json, IHttpListener listener) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        newCallAsync(request, listener);
+        newAsyncCall(request, listener);
     }
 
     /**
@@ -122,13 +116,13 @@ public final class HttpClient {
      * @param json     Json请求体
      * @param callback 请求结果回调
      */
-    public static void postJsonAsync(String url, String json, Callback callback) {
+    public void postJsonAsync(String url, String json, Callback callback) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(callback);
+        newAsyncCall(request, callback);
     }
 
     /**
@@ -139,13 +133,13 @@ public final class HttpClient {
      * @return 请求结果
      * @throws IOException 请求抛出错误
      */
-    public static Response postForm(String url, String form) throws IOException {
+    public Response postForm(String url, String form) throws IOException {
         RequestBody body = RequestBody.create(FORM, form);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        return client.newCall(request).execute();
+        return newDirectCall(request);
     }
 
     /**
@@ -155,13 +149,13 @@ public final class HttpClient {
      * @param form     Form请求体
      * @param listener 请求结果回调
      */
-    public static void postFormAsync(String url, String form, IHttpListener listener) {
+    public void postFormAsync(String url, String form, IHttpListener listener) {
         RequestBody body = RequestBody.create(FORM, form);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        newCallAsync(request, listener);
+        newAsyncCall(request, listener);
     }
 
     /**
@@ -171,13 +165,13 @@ public final class HttpClient {
      * @param form     Form请求体
      * @param callback 请求结果回调
      */
-    public static void postFormAsync(String url, String form, Callback callback) {
+    public void postFormAsync(String url, String form, Callback callback) {
         RequestBody body = RequestBody.create(FORM, form);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
-        client.newCall(request).enqueue(callback);
+        newAsyncCall(request, callback);
     }
 
     /**
@@ -188,13 +182,13 @@ public final class HttpClient {
      * @return 请求结果
      * @throws IOException 请求抛出错误
      */
-    public static Response putJson(String url, String json) throws IOException {
+    public Response putJson(String url, String json) throws IOException {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
                 .build();
-        return client.newCall(request).execute();
+        return newDirectCall(request);
     }
 
     /**
@@ -204,13 +198,13 @@ public final class HttpClient {
      * @param json     Json请求体
      * @param listener 请求结果回调
      */
-    public static void putJsonAsync(String url, String json, IHttpListener listener) {
+    public void putJsonAsync(String url, String json, IHttpListener listener) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
                 .build();
-        newCallAsync(request, listener);
+        newAsyncCall(request, listener);
     }
 
     /**
@@ -220,13 +214,13 @@ public final class HttpClient {
      * @param json     Json请求体
      * @param callback 请求结果回调
      */
-    public static void putJsonAsync(String url, String json, Callback callback) {
+    public void putJsonAsync(String url, String json, Callback callback) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
                 .build();
-        client.newCall(request).enqueue(callback);
+        newAsyncCall(request, callback);
     }
 
     /**
@@ -237,13 +231,13 @@ public final class HttpClient {
      * @return 请求结果
      * @throws IOException 请求抛出错误
      */
-    public static Response putForm(String url, String form) throws IOException {
+    public Response putForm(String url, String form) throws IOException {
         RequestBody body = RequestBody.create(FORM, form);
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
                 .build();
-        return client.newCall(request).execute();
+        return newDirectCall(request);
     }
 
     /**
@@ -253,13 +247,13 @@ public final class HttpClient {
      * @param form     Form请求体
      * @param listener 请求结果回调
      */
-    public static void putFormAsync(String url, String form, IHttpListener listener) {
+    public void putFormAsync(String url, String form, IHttpListener listener) {
         RequestBody body = RequestBody.create(FORM, form);
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
                 .build();
-        newCallAsync(request, listener);
+        newAsyncCall(request, listener);
     }
 
     /**
@@ -269,13 +263,111 @@ public final class HttpClient {
      * @param form     Form请求体
      * @param callback 请求结果回调
      */
-    public static void putFormAsync(String url, String form, Callback callback) {
+    public void putFormAsync(String url, String form, Callback callback) {
         RequestBody body = RequestBody.create(FORM, form);
         Request request = new Request.Builder()
                 .url(url)
                 .put(body)
                 .build();
-        client.newCall(request).enqueue(callback);
+        newAsyncCall(request, callback);
+    }
+
+    /**
+     * Delete同步请求，请求体为Json
+     *
+     * @param url  请求地址
+     * @param json Json请求体
+     * @return 请求结果
+     * @throws IOException 请求抛出错误
+     */
+    public Response deleteJson(String url, String json) throws IOException {
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .delete(body)
+                .build();
+        return newDirectCall(request);
+    }
+
+    /**
+     * Delete异步请求，请求体为Json
+     *
+     * @param url      请求地址
+     * @param json     Json请求体
+     * @param listener 请求结果回调
+     */
+    public void deleteJsonAsync(String url, String json, IHttpListener listener) {
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .delete(body)
+                .build();
+        newAsyncCall(request, listener);
+    }
+
+    /**
+     * Delete异步请求，请求体为Json
+     *
+     * @param url      请求地址
+     * @param json     Json请求体
+     * @param callback 请求结果回调
+     */
+    public void deleteJsonAsync(String url, String json, Callback callback) {
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .delete(body)
+                .build();
+        newAsyncCall(request, callback);
+    }
+
+    /**
+     * Delete同步请求，请求体为Form
+     *
+     * @param url  请求地址
+     * @param form Form请求体
+     * @return 请求结果
+     * @throws IOException 请求抛出错误
+     */
+    public Response deleteForm(String url, String form) throws IOException {
+        RequestBody body = RequestBody.create(FORM, form);
+        Request request = new Request.Builder()
+                .url(url)
+                .delete(body)
+                .build();
+        return newDirectCall(request);
+    }
+
+    /**
+     * Delete异步请求，请求体为Form
+     *
+     * @param url      请求地址
+     * @param form     Form请求体
+     * @param listener 请求结果回调
+     */
+    public void deleteFormAsync(String url, String form, IHttpListener listener) {
+        RequestBody body = RequestBody.create(FORM, form);
+        Request request = new Request.Builder()
+                .url(url)
+                .delete(body)
+                .build();
+        newAsyncCall(request, listener);
+    }
+
+    /**
+     * Delete异步请求，请求体为Form
+     *
+     * @param url      请求地址
+     * @param form     Form请求体
+     * @param callback 请求结果回调
+     */
+    public void deleteFormAsync(String url, String form, Callback callback) {
+        RequestBody body = RequestBody.create(FORM, form);
+        Request request = new Request.Builder()
+                .url(url)
+                .delete(body)
+                .build();
+        newAsyncCall(request, callback);
     }
 
     /**
@@ -285,12 +377,12 @@ public final class HttpClient {
      * @return 请求结果
      * @throws IOException 请求抛出错误
      */
-    public static Response delete(String url) throws IOException {
+    public Response delete(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .delete()
                 .build();
-        return client.newCall(request).execute();
+        return newDirectCall(request);
     }
 
     /**
@@ -299,12 +391,12 @@ public final class HttpClient {
      * @param url      请求地址
      * @param listener 请求结果回调
      */
-    public static void deleteAsync(String url, IHttpListener listener) {
+    public void deleteAsync(String url, IHttpListener listener) {
         Request request = new Request.Builder()
                 .url(url)
                 .delete()
                 .build();
-        newCallAsync(request, listener);
+        newAsyncCall(request, listener);
     }
 
     /**
@@ -313,11 +405,33 @@ public final class HttpClient {
      * @param url      请求地址
      * @param callback 请求结果回调
      */
-    public static void deleteAsync(String url, Callback callback) {
+    public void deleteAsync(String url, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
                 .delete()
                 .build();
+        newAsyncCall(request, callback);
+        client.newCall(request).enqueue(callback);
+    }
+
+    /**
+     * 新建同步请求
+     *
+     * @param request 请求
+     * @return 响应
+     * @throws IOException 请求出错抛出错误
+     */
+    private Response newDirectCall(Request request) throws IOException {
+        return client.newCall(request).execute();
+    }
+
+    /**
+     * 新建异步请求
+     *
+     * @param request  请求
+     * @param callback 结果回调
+     */
+    private void newAsyncCall(Request request, Callback callback) {
         client.newCall(request).enqueue(callback);
     }
 
@@ -327,27 +441,41 @@ public final class HttpClient {
      * @param request  请求
      * @param listener 结果回调
      */
-    private static void newCallAsync(Request request, IHttpListener listener) {
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                if (listener != null) {
-                    listener.onResult(IO_ERROR, e.getMessage());
-                }
-            }
+    private void newAsyncCall(Request request, IHttpListener listener) {
+        client.newCall(request).enqueue(new CallbackWrapper(listener));
+    }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (listener != null) {
-                    try {
-                        int code = response.code();
-                        String result = response.body().string();
-                        listener.onResult(code, result);
-                    } finally {
-                        response.close();
-                    }
+    /**
+     * 回调封装
+     */
+    private class CallbackWrapper implements Callback {
+        /**
+         * HTTP请求结果回调
+         */
+        IHttpListener listener;
+
+        CallbackWrapper(IHttpListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            if (listener != null) {
+                listener.onResult(IO_ERROR, e.getMessage());
+            }
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (listener != null) {
+                try {
+                    int code = response.code();
+                    String result = response.body().string();
+                    listener.onResult(code, result);
+                } finally {
+                    response.close();
                 }
             }
-        });
+        }
     }
 }
