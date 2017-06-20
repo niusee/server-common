@@ -411,7 +411,6 @@ public class HttpClient {
                 .delete()
                 .build();
         newAsyncCall(request, callback);
-        client.newCall(request).enqueue(callback);
     }
 
     /**
