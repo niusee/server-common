@@ -82,9 +82,20 @@ public class ProcessRunner {
     private boolean throwOnError(Process p) {
         log.debug("Waiting for process to exist");
         try {
-            return p.waitFor(1, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            log.error("Timed out waiting for process to finish");
+            boolean success = p.waitFor(1, TimeUnit.SECONDS);
+            if (!success) {
+                // 不成功直接退出
+                return false;
+            } else {
+                // 成功，还要检查退出值
+                int exitValue = p.exitValue();
+                if (exitValue != 0) {
+                    log.error("Process running error, exit value: {}", exitValue);
+                }
+                return exitValue == 0;
+            }
+        } catch (Throwable e) {
+            log.debug("Timed out waiting for process to finish");
             return false;
         }
     }
@@ -92,8 +103,8 @@ public class ProcessRunner {
     /**
      * 摧毁运行进程
      */
-    private void destroyProcess() {
-        // 关闭进程
+    private synchronized void destroyProcess() {
+        // 关闭进程，这里加上锁，防止
         if (process != null) {
             log.debug("destroy process");
             process.destroy();
@@ -147,7 +158,7 @@ public class ProcessRunner {
      * 运行
      */
     public void execute() {
-        // 如果是被取消,直接忽略
+        // 如果是被取消，直接忽略
         if (onStop) {
             return;
         }
