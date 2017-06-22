@@ -469,7 +469,12 @@ public class HttpClient {
             if (listener != null) {
                 try {
                     int code = response.code();
-                    String result = response.body().string();
+                    String result = "";
+                    ResponseBody body = response.body();
+                    // 防止返回为空的现象
+                    if (body != null) {
+                        result = body.string();
+                    }
                     listener.onResult(code, result);
                 } finally {
                     response.close();

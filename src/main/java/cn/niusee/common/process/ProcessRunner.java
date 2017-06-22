@@ -103,8 +103,8 @@ public class ProcessRunner {
     /**
      * 摧毁运行进程
      */
-    private void destroyProcess() {
-        // 关闭进程
+    private synchronized void destroyProcess() {
+        // 关闭进程，这里加上锁，防止
         if (process != null) {
             log.debug("destroy process");
             process.destroy();
