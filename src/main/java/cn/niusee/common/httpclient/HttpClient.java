@@ -46,6 +46,7 @@ public class HttpClient {
     public Response get(String url) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
+                .get()
                 .build();
         return newDirectCall(request);
     }
@@ -59,6 +60,7 @@ public class HttpClient {
     public void getAsync(String url, IHttpListener listener) {
         Request request = new Request.Builder()
                 .url(url)
+                .get()
                 .build();
         newAsyncCall(request, listener);
     }
@@ -72,6 +74,7 @@ public class HttpClient {
     public void getAsync(String url, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
+                .get()
                 .build();
         newAsyncCall(request, callback);
     }

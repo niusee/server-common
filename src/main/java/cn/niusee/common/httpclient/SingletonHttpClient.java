@@ -136,7 +136,7 @@ public final class SingletonHttpClient {
      * @throws IOException 请求抛出错误
      */
     public static Response putJson(String url, String json) throws IOException {
-        return client.postJson(url, json);
+        return client.putJson(url, json);
     }
 
     /**
@@ -147,7 +147,7 @@ public final class SingletonHttpClient {
      * @param listener 请求结果回调
      */
     public static void putJsonAsync(String url, String json, IHttpListener listener) {
-        client.postJsonAsync(url, json, listener);
+        client.putJsonAsync(url, json, listener);
     }
 
     /**
