@@ -90,7 +90,7 @@ public class ProcessRunner {
                 // 成功，还要检查退出值
                 int exitValue = p.exitValue();
                 if (exitValue != 0) {
-                    log.error("Process running error, exit value: {}", exitValue);
+                    log.debug("Process running interrupt error, exit value: {}", exitValue);
                 }
                 return exitValue == 0;
             }
