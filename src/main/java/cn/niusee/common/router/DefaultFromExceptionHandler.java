@@ -8,19 +8,20 @@ package cn.niusee.common.router;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import static cn.niusee.common.router.IRouter.UNKNOWN_ERROR_CODE;
+import static cn.niusee.common.router.IRouter.UNKNOWN_ERROR_MSG;
 import static spark.Spark.after;
 import static spark.Spark.exception;
 
 /**
- * 返回FORM消息的全局After控制的Router
+ * FORM方式数据的全局错误处理类
  *
  * @author Qianliang Zhang
  */
-public interface IFormAfterRouter extends IRouter {
-    /**
-     * 全局服务的后处理
-     */
-    default void afterHandler() {
+public class DefaultFromExceptionHandler implements IExceptionHandler {
+
+    @Override
+    public void handleException() {
         // 错误处理
         exception(Exception.class, (exception, request, response) -> {
             response.type("application//www-form-urlencoded");
@@ -45,7 +46,7 @@ public interface IFormAfterRouter extends IRouter {
      * @param errorMsg  错误信息
      * @return 组合后的错误消息
      */
-    default String combineErrorMsg(int errorCode, String errorMsg) {
+    private String combineErrorMsg(int errorCode, String errorMsg) {
         String encodeMsg = "";
         try {
             encodeMsg = URLEncoder.encode(errorMsg, "UTF-8");

@@ -24,7 +24,7 @@ public class TestHttpClient extends TestCase {
     }
 
     public void testGetNotFound() throws IOException {
-        Response response = SingletonHttpClient.get("http://www.baidu.com/dsdsdsdsdsd");
+        Response response = SingletonHttpClient.get("http://www.baidu.com/fuck");
         assertEquals(404, response.code());
     }
 }

@@ -6,8 +6,10 @@
 package cn.niusee.common.httpclient;
 
 import okhttp3.*;
+import spark.utils.StringUtils;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * HTTP请求客户端
@@ -47,6 +49,31 @@ public class HttpClient {
         Request request = new Request.Builder()
                 .url(url)
                 .get()
+                .build();
+        return newDirectCall(request);
+    }
+
+    /**
+     * Get请求
+     *
+     * @param headerMap 请求头
+     * @param url       请求地址
+     * @return 请求结果
+     * @throws IOException 请求抛出错误
+     */
+    public Response get(Map<String, String> headerMap, String url) throws IOException {
+        Request.Builder requestBuilder = new Request.Builder();
+        // 请求头部
+        if (headerMap != null && !headerMap.isEmpty()) {
+            headerMap.forEach((k, v) -> {
+                if (StringUtils.isNotBlank(k)) {
+                    requestBuilder.addHeader(k, headerMap.get(k));
+                }
+            });
+        }
+        // 请求地址
+        requestBuilder.url(url);
+        Request request = requestBuilder.get()
                 .build();
         return newDirectCall(request);
     }
