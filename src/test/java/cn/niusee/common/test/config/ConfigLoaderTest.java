@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  *
  * @author Qianliang Zhang
  */
-public class TestConfigLoader extends TestCase {
+public class ConfigLoaderTest extends TestCase {
 
     public void testConfig() {
         ConfigLoader configLoader = ConfigLoaderFactory.openConfigLoader("test.properties");

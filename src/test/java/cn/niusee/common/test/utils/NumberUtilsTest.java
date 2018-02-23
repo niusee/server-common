@@ -13,7 +13,7 @@ import junit.framework.TestCase;
  *
  * @author Qianliang Zhang
  */
-public class TestNumberUtils extends TestCase {
+public class NumberUtilsTest extends TestCase {
 
     public void testNumber() {
         assertEquals(true, NumberUtils.isInteger("6"));

@@ -16,15 +16,15 @@ import java.io.IOException;
  *
  * @author Qianliang Zhang
  */
-public class TestHttpClient extends TestCase {
+public class HttpClientTest extends TestCase {
 
     public void testGet() throws IOException {
-        Response response = SingletonHttpClient.get("http://www.baidu.com");
+        Response response = SingletonHttpClient.get("http://www.alibaba.com");
         assertEquals(200, response.code());
     }
 
     public void testGetNotFound() throws IOException {
-        Response response = SingletonHttpClient.get("http://www.baidu.com/fuck");
+        Response response = SingletonHttpClient.get("http://alibaba.com/fuck");
         assertEquals(404, response.code());
     }
 }

@@ -13,7 +13,7 @@ import junit.framework.TestCase;
  *
  * @author Qianliang Zhang
  */
-public class TestIDUtils extends TestCase {
+public class IDUtilsTest extends TestCase {
 
     public void test8BitsIds() {
         String id1 = IDUtils.randomIdIn8Bits();

@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  *
  * @author Qianliang Zhang
  */
-public class TestFFmpegProcess extends TestCase {
+public class FFmpegProcessTest extends TestCase {
 
     public void testFFmpegProgress() {
         ProcessRunner runner = new ProcessRunner("ffmpeg");
@@ -37,9 +37,7 @@ public class TestFFmpegProcess extends TestCase {
             }
         });
 
-        runner.execute();
-
-        // new Thread(runner::execute).start();
+        new Thread(runner::execute).start();
 //        try {
 //            Thread.sleep(3000);
 //        } catch (InterruptedException e) {

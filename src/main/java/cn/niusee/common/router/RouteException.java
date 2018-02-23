@@ -10,7 +10,7 @@ package cn.niusee.common.router;
  *
  * @author Qianliang Zhang
  */
-public class RouteException extends Exception {
+public class RouteException extends RuntimeException {
 
     /**
      * 服务响应代码

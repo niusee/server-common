@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author Qianliang Zhang
  */
-public class TestFormUtils extends TestCase {
+public class FormUtilsTest extends TestCase {
 
     public void testForm() {
         String test = "1=1&a=a&b=b&c=c";
