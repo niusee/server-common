@@ -60,4 +60,9 @@ public class RouteException extends RuntimeException {
     public String getErrorMessage() {
         return errorMessage;
     }
+
+    @Override
+    public Throwable fillInStackTrace() {
+        return null;
+    }
 }
