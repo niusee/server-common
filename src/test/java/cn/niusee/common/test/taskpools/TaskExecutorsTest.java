@@ -16,7 +16,7 @@ import junit.framework.TestCase;
  *
  * @author Qianliang Zhang
  */
-public class TestTaskExecutors extends TestCase {
+public class TaskExecutorsTest extends TestCase {
 
     public void testTaskExecutors() {
         SimpleTaskExecutors executors = new SimpleTaskExecutors("Test", 10);

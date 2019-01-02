@@ -16,7 +16,7 @@ import java.io.IOException;
  *
  * @author Qianliang Zhang
  */
-public class TestMD5Utils extends TestCase {
+public class MD5UtilsTest extends TestCase {
 
     public void testMd5() {
         String test = "1=1&a=a&b=b&c=c";
