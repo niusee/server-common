@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!--
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        -->
+        <encoder>
+            <pattern>[%date{HH:mm:ss.SSS}] [%level] [%thread] %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="NORMAL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>logs/normal.log</File>
+        <Append>true</Append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/normal.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%date{ISO8601}] [%level] [%thread] %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <File>logs/error.log</File>
+        <Append>true</Append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%date{ISO8601}] [%level] [%thread] %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="NORMAL_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+
+    <!--
+    <logger name="org.eclipse.jetty.server.Server">
+        <level value="DEBUG"/>
+    </logger>
+    -->
+    <!--
+    <logger name="cn.niusee.common">
+        <level value="DEBUG"/>
+    </logger>
+    -->
+
+    <logger name="cn.niusee.common">
+        <level value="DEBUG"/>
+    </logger>
+</configuration>

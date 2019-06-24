@@ -10,7 +10,7 @@ package cn.niusee.common.taskpools;
  *
  * @author Qianliang Zhang
  */
-public interface ITaskCallback {
+public interface OnTaskCallback {
     /**
      * 任务开始的回调
      *

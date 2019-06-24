@@ -14,11 +14,11 @@ public interface ITaskExecutors {
     /**
      * 添加线程任务
      *
-     * @param task     线程任务
-     * @param callback 任务状态回调
+     * @param task           线程任务
+     * @param onTaskCallback 任务运行状态回调类
      * @return 返回分配给任务的任务ID
      */
-    String addTask(ITask task, ITaskCallback callback);
+    String addTask(ITask task, OnTaskCallback onTaskCallback);
 
     /**
      * 取消线程任务

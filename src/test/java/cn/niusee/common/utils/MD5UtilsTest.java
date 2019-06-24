@@ -3,9 +3,8 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.test.utils;
+package cn.niusee.common.utils;
 
-import cn.niusee.common.utils.MD5Utils;
 import junit.framework.TestCase;
 
 import java.io.File;

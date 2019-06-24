@@ -3,10 +3,8 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.test.process;
+package cn.niusee.common.process;
 
-import cn.niusee.common.process.OnProcessRunnerCallback;
-import cn.niusee.common.process.ProcessRunner;
 import junit.framework.TestCase;
 
 /**

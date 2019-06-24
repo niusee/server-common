@@ -6,34 +6,21 @@
 package cn.niusee.common.taskpools;
 
 /**
- * 线程任务接口类
+ * 线程任务定义类
  *
  * @author Qianliang Zhang
  */
-public interface ITask extends Runnable {
-    /**
-     * 设置任务ID
-     *
-     * @param taskId 任务ID
-     */
-    void setTaskId(String taskId);
+public interface ITask {
 
     /**
-     * 获取任务ID
+     * 运行任务
      *
-     * @return 任务ID
+     * @return 任务运行结果。true：成功，false：失败
      */
-    String getTaskId();
+    boolean run();
 
     /**
-     * 设置任务状态回调
-     *
-     * @param taskCallback 任务状态回调
-     */
-    void setTaskCallback(ITaskCallback taskCallback);
-
-    /**
-     * 任务的取消方法
+     * 取消任务
      */
     void cancel();
 }
