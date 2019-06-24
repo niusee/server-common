@@ -3,9 +3,8 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.test.logger;
+package cn.niusee.common.logger;
 
-import cn.niusee.common.logger.LoggerHelper;
 import junit.framework.TestCase;
 
 /**

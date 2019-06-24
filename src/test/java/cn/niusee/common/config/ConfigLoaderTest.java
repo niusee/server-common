@@ -3,10 +3,8 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.test.config;
+package cn.niusee.common.config;
 
-import cn.niusee.common.config.ConfigLoader;
-import cn.niusee.common.config.ConfigLoaderFactory;
 import junit.framework.TestCase;
 
 /**
@@ -23,10 +21,10 @@ public class ConfigLoaderTest extends TestCase {
         assertEquals(0, configLoader.getInt("test_int1", 0));
         assertEquals(10000, configLoader.getLong("test_long", 0));
         assertEquals(0, configLoader.getLong("test_long1", 0));
-        assertEquals(true, configLoader.getBoolean("test_bool1", false));
-        assertEquals(false, configLoader.getBoolean("test_bool2", false));
-        assertEquals(false, configLoader.getBoolean("test_bool3", false));
-        assertEquals(false, configLoader.getBoolean("test_bool4", false));
+        assertTrue(configLoader.getBoolean("test_bool1", false));
+        assertFalse(configLoader.getBoolean("test_bool2", false));
+        assertFalse(configLoader.getBoolean("test_bool3", false));
+        assertFalse(configLoader.getBoolean("test_bool4", false));
 
         assertEquals(6.5F, configLoader.getFloat("test_float", 0F), 0F);
         assertEquals(0F, configLoader.getFloat("test_float1", 0F), 0F);

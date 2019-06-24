@@ -7,10 +7,8 @@ package cn.niusee.common.taskpools;
 
 import cn.niusee.common.logger.LoggerHelper;
 
-import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * 基础线程任务执行管理类
@@ -18,6 +16,76 @@ import java.util.stream.Collectors;
  * @author Qianliang Zhang
  */
 public class SimpleTaskExecutors implements ITaskExecutors {
+
+    /**
+     * 线程任务类封装类
+     */
+    private class SimpleTaskWrapper implements Runnable {
+        /**
+         * 分配任务的ID
+         */
+        private final String taskId;
+
+        /**
+         * 线程任务类
+         */
+        private final ITask task;
+
+        /**
+         * 任务状态回调
+         */
+        private OnTaskCallback onTaskCallback;
+
+        SimpleTaskWrapper(String taskId, ITask task, OnTaskCallback onTaskCallback) {
+            this.taskId = taskId;
+            this.task = task;
+            this.onTaskCallback = onTaskCallback;
+        }
+
+        /**
+         * 分配任务的ID
+         *
+         * @return 分配任务的ID
+         */
+        String getTaskId() {
+            return taskId;
+        }
+
+        /**
+         * 线程任务类
+         *
+         * @return 线程任务类
+         */
+        ITask getTask() {
+            return task;
+        }
+
+        @Override
+        public void run() {
+            runningTaskPool.put(taskId, this);
+            if (onTaskCallback != null) {
+                onTaskCallback.onTaskStart(task);
+            }
+            boolean result = task.run();
+            runningTaskPool.remove(taskId);
+            if (result) {
+                if (onTaskCallback != null) {
+                    onTaskCallback.onTaskComplete(task);
+                }
+            } else {
+                if (onTaskCallback != null) {
+                    onTaskCallback.onTaskError(task);
+                }
+            }
+        }
+
+        /**
+         * 取消任务
+         */
+        private void cancel() {
+            task.cancel();
+        }
+    }
 
     /**
      * 日记
@@ -42,12 +110,12 @@ public class SimpleTaskExecutors implements ITaskExecutors {
     /**
      * 运行中的任务集合管理
      */
-    private ConcurrentMap<String, ITask> runningTaskPool;
+    private ConcurrentMap<String, SimpleTaskWrapper> runningTaskPool;
 
     /**
      * 任务ID的数值记录
      */
-    private AtomicInteger taskNumber = new AtomicInteger(0);
+    private AtomicInteger taskNumber = new AtomicInteger(1);
 
     public SimpleTaskExecutors(String tag, int corePoolSize) {
         this.tag = EXECUTOR_NAME + tag + "-";
@@ -57,13 +125,12 @@ public class SimpleTaskExecutors implements ITaskExecutors {
     }
 
     @Override
-    public String addTask(ITask task, ITaskCallback callback) {
+    public String addTask(ITask task, OnTaskCallback onTaskCallback) {
         if (task != null) {
             String taskId = tag + taskNumber.getAndIncrement();
             log.debug("Add task: {}", taskId);
-            task.setTaskId(taskId);
-            task.setTaskCallback(callback);
-            taskExecutors.execute(task);
+            SimpleTaskWrapper taskWrapper = new SimpleTaskWrapper(taskId, task, onTaskCallback);
+            taskExecutors.execute(taskWrapper);
             return taskId;
         }
         return null;
@@ -72,11 +139,8 @@ public class SimpleTaskExecutors implements ITaskExecutors {
     @Override
     public void cancelTask(String taskId) {
         log.debug("Cancel task: {}", taskId);
-        // 检查是否在等待队列中
-        List<Runnable> resultList = taskExecutors.getQueue().parallelStream()
-                .filter(runnable -> ((ITask) runnable).getTaskId().equals(taskId)).collect(Collectors.toList());
-        // 在等待队列中移除
-        resultList.forEach(e -> taskExecutors.getQueue().remove(e));
+        // 检查是否存在等待队列中，直接移除
+        taskExecutors.getQueue().removeIf(runnable -> ((SimpleTaskWrapper) runnable).getTaskId().equals(taskId));
 
         // 检查运行队列
         if (runningTaskPool.containsKey(taskId)) {

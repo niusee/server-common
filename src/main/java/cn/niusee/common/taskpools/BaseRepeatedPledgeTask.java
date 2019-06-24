@@ -10,19 +10,20 @@ package cn.niusee.common.taskpools;
  *
  * @author Qianliang Zhang
  */
-public abstract class CyclesTimeTask extends BaseTask {
+public abstract class BaseRepeatedPledgeTask implements ITask {
+
     /**
      * 限定次数。-1代表不限定次数
      */
-    private int limitTimes;
+    private final int limitRepeatedTimes;
 
     /**
      * 任务是否被取消
      */
     private boolean canceled = false;
 
-    public CyclesTimeTask(int limitTimes) {
-        this.limitTimes = limitTimes;
+    public BaseRepeatedPledgeTask(int limitRepeatedTimes) {
+        this.limitRepeatedTimes = limitRepeatedTimes;
     }
 
     @Override
@@ -31,26 +32,14 @@ public abstract class CyclesTimeTask extends BaseTask {
     }
 
     @Override
-    public void run() {
-        if (taskCallback != null) {
-            taskCallback.onTaskStart(this);
-        }
+    public boolean run() {
         int currentRunningTime = 0;
         boolean success = false;
-        while (!success && !canceled && (limitTimes != -1 && currentRunningTime < limitTimes)) {
+        while (!success && !canceled && (limitRepeatedTimes != -1 && currentRunningTime < limitRepeatedTimes)) {
             success = doJob();
-            limitTimes++;
+            currentRunningTime++;
         }
-
-        if (success) {
-            if (taskCallback != null) {
-                taskCallback.onTaskComplete(this);
-            }
-        } else {
-            if (taskCallback != null) {
-                taskCallback.onTaskError(this);
-            }
-        }
+        return success;
     }
 
     /**

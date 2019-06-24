@@ -3,9 +3,8 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.test.utils;
+package cn.niusee.common.utils;
 
-import cn.niusee.common.utils.FormUtils;
 import junit.framework.TestCase;
 
 import java.util.Map;
@@ -21,7 +20,7 @@ public class FormUtilsTest extends TestCase {
         String test = "1=1&a=a&b=b&c=c";
         Map<String, String> forms = FormUtils.parseForm(test);
         assertEquals("1", forms.get("1"));
-        assertEquals(null, forms.get("2"));
+        assertNull(forms.get("2"));
         assertEquals("a", forms.get("a"));
         assertEquals("b", forms.get("b"));
         assertEquals("c", forms.get("c"));

@@ -3,11 +3,11 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.test.httpclient;
+package cn.niusee.common.httpclient;
 
-import cn.niusee.common.httpclient.SingletonHttpClient;
 import junit.framework.TestCase;
 import okhttp3.Response;
+import org.junit.Before;
 
 import java.io.IOException;
 
@@ -18,13 +18,15 @@ import java.io.IOException;
  */
 public class HttpClientTest extends TestCase {
 
+    private HttpClient httpClient = new HttpClient();
+
     public void testGet() throws IOException {
-        Response response = SingletonHttpClient.get("http://www.alibaba.com");
+        Response response = httpClient.get("http://www.alibaba.com");
         assertEquals(200, response.code());
     }
 
     public void testGetNotFound() throws IOException {
-        Response response = SingletonHttpClient.get("http://alibaba.com/fuck");
+        Response response = httpClient.get("http://alibaba.com/fuck");
         assertEquals(404, response.code());
     }
 }
