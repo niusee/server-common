@@ -29,7 +29,7 @@ public final class MD5Utils {
     /**
      * 默认的密码字符串组合，Apache 校验下载的文件的正确性用的就是默认的这个组合.
      */
-    private static char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    private static char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     /**
      * 建立MD5算法.
@@ -138,7 +138,7 @@ public final class MD5Utils {
      * @param bytes 字节数组
      * @return 十六进制字符
      */
-    private static String bufferToHex(byte bytes[]) {
+    private static String bufferToHex(byte[] bytes) {
         return bufferToHex(bytes, 0, bytes.length);
     }
 
@@ -150,7 +150,7 @@ public final class MD5Utils {
      * @param n     结束位置
      * @return 十六进制字符
      */
-    private static String bufferToHex(byte bytes[], int m, int n) {
+    private static String bufferToHex(byte[] bytes, int m, int n) {
         StringBuffer stringBuffer = new StringBuffer(2 * n);
         int k = m + n;
         for (int l = m; l < k; l++) {

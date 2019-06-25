@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Qianliang Zhang
  */
-public class SimpleMediaInfoUtil {
+public final class SimpleMediaInfoUtil {
 
     // 防止继承
     private SimpleMediaInfoUtil() {
@@ -31,7 +31,7 @@ public class SimpleMediaInfoUtil {
     public static String FFPROBE_PATH = "ffprobe";
 
     /**
-     * 使用FFprobe分析出指定视频的简易媒体信息
+     * 使用Ffprobe分析出指定视频的简易媒体信息
      *
      * @param url 指定的视频地址
      * @return 简易的媒体信息
@@ -47,7 +47,7 @@ public class SimpleMediaInfoUtil {
      * @return 媒体信息
      */
     public static Media analyzeMedia(String url) {
-        // FFprobe 运行命令
+        // Ffprobe 运行命令
         List<String> command = new ArrayList<>();
         command.add(FFPROBE_PATH);
         command.add("-loglevel");
@@ -64,7 +64,7 @@ public class SimpleMediaInfoUtil {
 
         // 是否成功
         boolean success = false;
-        // 收集FFprobe输出的信息
+        // 收集Ffprobe输出的信息
         StringBuilder sb = new StringBuilder();
         // 记录获取错误的时候的信息
         String errorMessage = null;
@@ -116,9 +116,9 @@ public class SimpleMediaInfoUtil {
     }
 
     /**
-     * 把FFprobe输出的文件信息解析出媒体信息类
+     * 把Ffprobe输出的文件信息解析出媒体信息类
      *
-     * @param meta FFprobe输出的文件信息
+     * @param meta Ffprobe输出的文件信息
      * @return 媒体信息类
      */
     private static Media parseMedia(String meta) {

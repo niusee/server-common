@@ -32,7 +32,7 @@ public class QuartzSchedulingService implements ISchedulingService {
     /**
      * 组任务名称
      */
-    private static final String GROUP_NAME = "NIUSEE_SCHEDULE";
+    private static final String GROUP_NAME = "NS_SCHEDULE";
 
     /**
      * 周期服务类

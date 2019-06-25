@@ -70,7 +70,6 @@ public final class DateUtils {
         return new Date(geTomorrowMidnightTimestamp());
     }
 
-
     /**
      * 获取明天0点过指定时间的日期
      *

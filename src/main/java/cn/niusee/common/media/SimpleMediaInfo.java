@@ -172,23 +172,23 @@ public class SimpleMediaInfo {
     }
 
     /**
-     * 获取视频的帧率（浮点数模式）
+     * 格式化数字字符串为浮点数字
      *
-     * @return 视频的帧率（浮点数模式）
+     * @param floatStr 数字字符串
+     * @return 浮点数字
      */
-    public double getFpsInDouble() {
-        String fps = getFps();
-        if (fps == null) {
+    private double formatFloatStr2Double(String floatStr) {
+        if (floatStr == null) {
             return 0;
         }
         double realFps;
-        if (NumberUtils.isDouble(fps)) {
+        if (NumberUtils.isDouble(floatStr)) {
             // 数字形式
-            realFps = Double.parseDouble(fps);
+            realFps = Double.parseDouble(floatStr);
         } else {
             // 25/1的形式
             try {
-                String[] fpsNumbers = fps.split("/");
+                String[] fpsNumbers = floatStr.split("/");
                 realFps = Double.parseDouble(fpsNumbers[0]) / Double.parseDouble(fpsNumbers[1]);
             } catch (Exception e) {
                 return 0;
@@ -196,6 +196,15 @@ public class SimpleMediaInfo {
         }
         // 保留小数点2位
         return Double.parseDouble(String.format("%.2f", realFps));
+    }
+
+    /**
+     * 获取视频的帧率（浮点数模式）
+     *
+     * @return 视频的帧率（浮点数模式）
+     */
+    public double getFpsInDouble() {
+        return formatFloatStr2Double(getFps());
     }
 
     /**
@@ -214,24 +223,7 @@ public class SimpleMediaInfo {
      * @return 视频的平均帧率（浮点数模式）
      */
     public double getAvgFpsInDouble() {
-        String avgFps = getAvgFps();
-        if (avgFps == null) {
-            return 0;
-        }
-        double realAvgFps;
-        if (NumberUtils.isDouble(avgFps)) {
-            realAvgFps = Double.parseDouble(avgFps);
-        } else {
-            // 25/1的形式
-            try {
-                String[] fpsNumbers = avgFps.split("/");
-                realAvgFps = Double.parseDouble(fpsNumbers[0]) / Double.parseDouble(fpsNumbers[1]);
-            } catch (Exception e) {
-                return 0;
-            }
-        }
-        // 保留小数点2位
-        return Double.parseDouble(String.format("%.2f", realAvgFps));
+        return formatFloatStr2Double(getAvgFps());
     }
 
     /**

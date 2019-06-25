@@ -11,6 +11,7 @@ package cn.niusee.common.utils;
  * @author Qianliang Zhang
  */
 public class TimeUtils {
+
     private TimeUtils() {
 
     }
