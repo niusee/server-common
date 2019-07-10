@@ -1,5 +1,5 @@
 /*
- * Niusee Video Editor Server
+ * Niusee server-common
  *
  * Copyright 2015-2016 by Niusee.inc. All rights reserved.
  */
@@ -24,7 +24,7 @@ public class ProcessRunner {
     /**
      * 日记记录
      */
-    private static LoggerHelper log = new LoggerHelper(ProcessRunner.class);
+    private static final LoggerHelper log = new LoggerHelper(ProcessRunner.class);
 
     /**
      * 进程运行停止标志
@@ -39,7 +39,7 @@ public class ProcessRunner {
     /**
      * 命令行运行参数
      */
-    private List<String> commandParamsList;
+    private final List<String> commandParamsList;
 
     /**
      * 命令行程序运行情况的回调

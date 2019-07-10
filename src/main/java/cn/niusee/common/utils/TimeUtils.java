@@ -10,10 +10,10 @@ package cn.niusee.common.utils;
  *
  * @author Qianliang Zhang
  */
-public class TimeUtils {
+public final class TimeUtils {
 
     private TimeUtils() {
-
+        throw new RuntimeException("No implements");
     }
 
     /**

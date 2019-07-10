@@ -22,7 +22,7 @@ public final class SimpleMediaInfoUtil {
 
     // 防止继承
     private SimpleMediaInfoUtil() {
-
+        throw new RuntimeException("No implements");
     }
 
     /**

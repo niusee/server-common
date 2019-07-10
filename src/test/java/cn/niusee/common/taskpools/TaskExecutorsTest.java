@@ -18,7 +18,7 @@ public class TaskExecutorsTest extends TestCase {
         SimpleTaskExecutors executors = new SimpleTaskExecutors("Test", 10);
         for (int i = 1; i <= 10; i++) {
             final int index = i;
-            executors.addTask(new ITask() {
+            executors.executeTask(new ITask() {
                 @Override
                 public void cancel() {
 
@@ -36,12 +36,12 @@ public class TaskExecutorsTest extends TestCase {
                 }
 
                 @Override
-                public void onTaskComplete(ITask task) {
+                public void onTaskSuccess(ITask task) {
                     System.out.println("test complete: " + index);
                 }
 
                 @Override
-                public void onTaskError(ITask task) {
+                public void onTaskFail(ITask task) {
                     System.out.println("test error: " + index);
                 }
             });

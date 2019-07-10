@@ -26,7 +26,7 @@ public class ConfigLoader {
     /**
      * 读取配置文件
      */
-    private Properties prop = new Properties();
+    private final Properties prop = new Properties();
 
     public ConfigLoader(String configName) {
         this.configName = configName;

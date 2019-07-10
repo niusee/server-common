@@ -23,16 +23,17 @@ public final class MD5Utils {
 
     // 防止继承
     private MD5Utils() {
-
+        throw new RuntimeException("No implements");
     }
 
     /**
      * 默认的密码字符串组合，Apache 校验下载的文件的正确性用的就是默认的这个组合.
      */
-    private static char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    private final static char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'a', 'b', 'c', 'd', 'e', 'f'};
 
     /**
-     * 建立MD5算法.
+     * 建立MD5算法
      *
      * @return MD5算法
      * @throws NoSuchAlgorithmException 没有MD5算法这种类型时出错

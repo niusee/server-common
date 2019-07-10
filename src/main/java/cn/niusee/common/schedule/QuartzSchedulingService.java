@@ -27,7 +27,7 @@ public class QuartzSchedulingService implements ISchedulingService {
     /**
      * 日记
      */
-    private static LoggerHelper log = new LoggerHelper(QuartzSchedulingService.class);
+    private static final LoggerHelper log = new LoggerHelper(QuartzSchedulingService.class);
 
     /**
      * 组任务名称
@@ -42,7 +42,7 @@ public class QuartzSchedulingService implements ISchedulingService {
     /**
      * 任务计数器
      */
-    private AtomicLong jobDetailCounter = new AtomicLong(0);
+    private final AtomicLong jobDetailCounter = new AtomicLong(0);
 
     /**
      * 初始化计划服务单例

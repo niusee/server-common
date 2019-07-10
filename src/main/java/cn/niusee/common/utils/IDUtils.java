@@ -16,7 +16,7 @@ public class IDUtils {
 
     // 防止继承
     private IDUtils() {
-
+        throw new RuntimeException("No implements");
     }
 
     /**

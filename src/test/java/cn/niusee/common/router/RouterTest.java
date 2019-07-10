@@ -6,6 +6,8 @@
 package cn.niusee.common.router;
 
 import cn.niusee.common.httpclient.SingletonHttpClient;
+import cn.niusee.common.router.exception.User400Exception;
+import cn.niusee.common.router.exception.User404Exception;
 import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Before;

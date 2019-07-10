@@ -7,7 +7,6 @@ package cn.niusee.common.httpclient;
 
 import junit.framework.TestCase;
 import okhttp3.Response;
-import org.junit.Before;
 
 import java.io.IOException;
 
@@ -18,7 +17,7 @@ import java.io.IOException;
  */
 public class HttpClientTest extends TestCase {
 
-    private HttpClient httpClient = new HttpClient();
+    private final HttpClient httpClient = new HttpClient();
 
     public void testGet() throws IOException {
         Response response = httpClient.get("http://www.alibaba.com");
