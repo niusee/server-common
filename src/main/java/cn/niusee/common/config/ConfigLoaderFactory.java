@@ -1,5 +1,5 @@
 /*
- * Niusee vod-server
+ * Niusee server-common
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */

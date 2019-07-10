@@ -1,5 +1,5 @@
 /*
- * Niusee nginx-live-proxy
+ * Niusee server-common
  *
  * Copyright 2015-2016 by Niusee.inc. All rights reserved.
  */

@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.router;
+package cn.niusee.common.router.exception;
 
 /**
  * 路由错误抛出类
@@ -15,17 +15,17 @@ public class RouteException extends RuntimeException {
     /**
      * 服务响应代码
      */
-    private int responseCode;
+    private final int responseCode;
 
     /**
      * 错误代码
      */
-    private int errorCode;
+    private final int errorCode;
 
     /**
      * 错误信息
      */
-    private String errorMessage;
+    private final String errorMessage;
 
     public RouteException(int responseCode, int errorCode, String message) {
         super(message);

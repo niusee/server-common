@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  */
 public class LoggerTest extends TestCase {
 
-    private LoggerHelper logger = new LoggerHelper(LoggerTest.class);
+    private final LoggerHelper logger = new LoggerHelper(LoggerTest.class);
 
     public void testLog() {
         logger.trace("test");

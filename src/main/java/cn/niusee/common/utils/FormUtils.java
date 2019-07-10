@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * x-www-url-encoded From请求体解析工具类
+ * x-www-url-encoded请求方式的From请求处理工具类
  *
  * @author Qianliang Zhang
  */
@@ -22,10 +22,10 @@ public final class FormUtils {
     }
 
     /**
-     * 解析x-www-url-encoded From请求体
+     * 解析x-www-url-encoded请求方式的From请求体
      *
      * @param body x-www-url-encoded From请求体
-     * @return 参数集合
+     * @return From参数集合
      */
     public static Map<String, String> parseForm(String body) {
         String[] paramPairs = body.split("&");

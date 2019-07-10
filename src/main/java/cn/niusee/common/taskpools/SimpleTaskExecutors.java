@@ -34,7 +34,7 @@ public class SimpleTaskExecutors implements ITaskExecutors {
         /**
          * 任务状态回调
          */
-        private OnTaskCallback onTaskCallback;
+        private final OnTaskCallback onTaskCallback;
 
         SimpleTaskWrapper(String taskId, ITask task, OnTaskCallback onTaskCallback) {
             this.taskId = taskId;
@@ -52,7 +52,7 @@ public class SimpleTaskExecutors implements ITaskExecutors {
         }
 
         /**
-         * 线程任务类
+         * 获取线程任务类
          *
          * @return 线程任务类
          */
@@ -70,11 +70,11 @@ public class SimpleTaskExecutors implements ITaskExecutors {
             runningTaskPool.remove(taskId);
             if (result) {
                 if (onTaskCallback != null) {
-                    onTaskCallback.onTaskComplete(task);
+                    onTaskCallback.onTaskSuccess(task);
                 }
             } else {
                 if (onTaskCallback != null) {
-                    onTaskCallback.onTaskError(task);
+                    onTaskCallback.onTaskFail(task);
                 }
             }
         }
@@ -90,12 +90,7 @@ public class SimpleTaskExecutors implements ITaskExecutors {
     /**
      * 日记
      */
-    private static LoggerHelper log = new LoggerHelper(SimpleTaskExecutors.class);
-
-    /**
-     * 线程任务执行管理类名称前缀
-     */
-    private final static String EXECUTOR_NAME = "SimpleTaskExecutors-";
+    private static final LoggerHelper log = new LoggerHelper(SimpleTaskExecutors.class);
 
     /**
      * 线程任务执行管理类名称
@@ -105,27 +100,26 @@ public class SimpleTaskExecutors implements ITaskExecutors {
     /**
      * 任务运行线程池
      */
-    private ThreadPoolExecutor taskExecutors;
+    private final ThreadPoolExecutor taskExecutors;
 
     /**
      * 运行中的任务集合管理
      */
-    private ConcurrentMap<String, SimpleTaskWrapper> runningTaskPool;
+    private final ConcurrentMap<String, SimpleTaskWrapper> runningTaskPool;
 
     /**
      * 任务ID的数值记录
      */
-    private AtomicInteger taskNumber = new AtomicInteger(1);
+    private final AtomicInteger taskNumber = new AtomicInteger(1);
 
     public SimpleTaskExecutors(String tag, int corePoolSize) {
-        this.tag = EXECUTOR_NAME + tag + "-";
-        taskExecutors = new ThreadPoolExecutor(corePoolSize, corePoolSize, 0L, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>());
+        this.tag = tag + "-";
+        taskExecutors = (ThreadPoolExecutor) Executors.newFixedThreadPool(corePoolSize);
         runningTaskPool = new ConcurrentHashMap<>(corePoolSize);
     }
 
     @Override
-    public String addTask(ITask task, OnTaskCallback onTaskCallback) {
+    public String executeTask(ITask task, OnTaskCallback onTaskCallback) {
         if (task != null) {
             String taskId = tag + taskNumber.getAndIncrement();
             log.debug("Add task: {}", taskId);

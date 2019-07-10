@@ -12,11 +12,11 @@ import java.util.regex.Pattern;
  *
  * @author Qianliang Zhang
  */
-public class NumberUtils {
+public final class NumberUtils {
 
     // 防止继承
     private NumberUtils() {
-
+        throw new RuntimeException("No implements");
     }
 
     /**

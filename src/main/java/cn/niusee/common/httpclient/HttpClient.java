@@ -123,7 +123,7 @@ public class HttpClient {
         /**
          * HTTP请求结果回调
          */
-        private IHttpListener listener;
+        private final IHttpListener listener;
 
         CallbackWrapper(IHttpListener listener) {
             this.listener = listener;

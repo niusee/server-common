@@ -5,6 +5,7 @@
  */
 package cn.niusee.common.router;
 
+import cn.niusee.common.router.exception.RouteException;
 import spark.Response;
 
 import static cn.niusee.common.router.IRouter.UNKNOWN_ERROR_CODE;

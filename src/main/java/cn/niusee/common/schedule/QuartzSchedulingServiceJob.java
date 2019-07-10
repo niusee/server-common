@@ -3,7 +3,6 @@
  *
  * Copyright 2015-2016 by Niusee.inc. All rights reserved.
  */
-
 package cn.niusee.common.schedule;
 
 import cn.niusee.common.logger.LoggerHelper;
@@ -30,7 +29,7 @@ public class QuartzSchedulingServiceJob implements Job {
     /**
      * 日记
      */
-    private LoggerHelper log = new LoggerHelper(QuartzSchedulingServiceJob.class);
+    private static final LoggerHelper log = new LoggerHelper(QuartzSchedulingServiceJob.class);
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {

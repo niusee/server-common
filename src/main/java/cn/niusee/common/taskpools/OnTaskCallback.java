@@ -19,16 +19,16 @@ public interface OnTaskCallback {
     void onTaskStart(ITask task);
 
     /**
-     * 任务完成的回调
+     * 任务运行成功的回调
      *
      * @param task 线程任务
      */
-    void onTaskComplete(ITask task);
+    void onTaskSuccess(ITask task);
 
     /**
-     * 任务运行错误的回调
+     * 任务运行失败的回调
      *
      * @param task 线程任务
      */
-    void onTaskError(ITask task);
+    void onTaskFail(ITask task);
 }
