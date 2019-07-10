@@ -3,11 +3,11 @@
  *
  * Copyright 2015-2018 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.router;
+package cn.niusee.common.route;
 
 import cn.niusee.common.httpclient.SingletonHttpClient;
-import cn.niusee.common.router.exception.User400Exception;
-import cn.niusee.common.router.exception.User404Exception;
+import cn.niusee.common.route.exception.User400Exception;
+import cn.niusee.common.route.exception.User404Exception;
 import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Before;
@@ -47,15 +47,15 @@ public class RouterTest {
         Response response = SingletonHttpClient.getInstance().get("http://127.0.0.1:4567/test/123");
         Assert.assertEquals(400, response.code());
         Assert.assertEquals("{\"error_code\":1001,\"error_msg\":\"id not right\"}",
-                response.body().string());
+                response.body() != null ? response.body().string() : "");
 
         response = SingletonHttpClient.getInstance().get("http://127.0.0.1:4567/test/4567");
         Assert.assertEquals(404, response.code());
         Assert.assertEquals("{\"error_code\":1002,\"error_msg\":\"id not found\"}",
-                response.body().string());
+                response.body() != null ? response.body().string() : "");
 
         response = SingletonHttpClient.getInstance().get("http://127.0.0.1:4567/test/1234");
         Assert.assertEquals(200, response.code());
-        Assert.assertEquals("{\"success\":true}", response.body().string());
+        Assert.assertEquals("{\"success\":true}", response.body() != null ? response.body().string() : "");
     }
 }

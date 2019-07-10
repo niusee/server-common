@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.router;
+package cn.niusee.common.route;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

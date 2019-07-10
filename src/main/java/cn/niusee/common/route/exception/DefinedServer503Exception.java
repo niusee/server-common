@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2018 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.router.exception;
+package cn.niusee.common.route.exception;
 
 /**
  * 自定义的服务器繁忙错误类

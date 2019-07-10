@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.router.exception;
+package cn.niusee.common.route.exception;
 
 /**
  * 服务器（程序）内部出错的错误抛出类
