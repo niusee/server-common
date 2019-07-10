@@ -3,13 +3,13 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.router;
+package cn.niusee.common.route;
 
-import cn.niusee.common.router.exception.RouteException;
+import cn.niusee.common.route.exception.RouteException;
 import spark.Response;
 
-import static cn.niusee.common.router.IRouter.UNKNOWN_ERROR_CODE;
-import static cn.niusee.common.router.IRouter.UNKNOWN_ERROR_MSG;
+import static cn.niusee.common.route.IRouter.UNKNOWN_ERROR_CODE;
+import static cn.niusee.common.route.IRouter.UNKNOWN_ERROR_MSG;
 
 /**
  * 全局错误信息处理接口定义类

@@ -1,4 +1,4 @@
-package cn.niusee.common.router.exception;
+package cn.niusee.common.route.exception;
 
 /**
  * 错误定义类
