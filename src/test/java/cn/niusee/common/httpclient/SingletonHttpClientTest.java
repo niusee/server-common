@@ -13,12 +13,12 @@ import java.io.IOException;
 public class SingletonHttpClientTest extends TestCase {
 
     public void testGet() throws IOException {
-        Response response = SingletonHttpClient.getInstance().get("http://www.alibaba.com");
+        Response response = SingletonHttpClient.getInstance().get("http://api.jirengu.com/getWeather.php?city=深圳");
         assertEquals(200, response.code());
     }
 
     public void testGetNotFound() throws IOException {
-        Response response = SingletonHttpClient.getInstance().get("http://alibaba.com/fuck");
+        Response response = SingletonHttpClient.getInstance().get("http://api.jirengu.com/notFound.php");
         assertEquals(404, response.code());
     }
 }
