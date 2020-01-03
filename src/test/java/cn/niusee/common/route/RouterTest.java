@@ -103,6 +103,13 @@ public class RouterTest {
     }
 
     @Test
+    public void testNotFoundRoute() throws IOException {
+        Response response = SingletonHttpClient.getInstance().get("http://127.0.0.1:4567/music");
+        Assert.assertEquals(404, response.code());
+        System.out.println(Objects.requireNonNull(response.body()).string());
+    }
+
+    @Test
     public void testRoute() throws IOException {
         Book book1 = new Book(10001, "Hello World");
         Book book2 = new Book(10002, "Java Book");
