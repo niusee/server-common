@@ -6,7 +6,7 @@
 
     <groupId>cn.niusee</groupId>
     <artifactId>server-common</artifactId>
-    <version>0.2.1</version>
+    <version>0.3.0</version>
 
     <build>
         <plugins>
@@ -127,7 +127,7 @@
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>3.14.2</version>
+            <version>4.3.0</version>
         </dependency>
     </dependencies>
 

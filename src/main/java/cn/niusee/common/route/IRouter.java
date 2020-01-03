@@ -22,6 +22,16 @@ public interface IRouter {
     String UNKNOWN_ERROR_MSG = "Unknown error, detail: ";
 
     /**
+     * 没路由的错误代码
+     */
+    int NOT_FOUND_ERROR_CODE = -4004;
+
+    /**
+     * 没路由的错误信息
+     */
+    String NOT_FOUND_ERROR_MSG = "route not found";
+
+    /**
      * 路由启动方法
      */
     void route();
