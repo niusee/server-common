@@ -5,8 +5,9 @@
  */
 package cn.niusee.common.route;
 
-import static spark.Spark.after;
-import static spark.Spark.exception;
+import static cn.niusee.common.route.IRouter.NOT_FOUND_ERROR_CODE;
+import static cn.niusee.common.route.IRouter.NOT_FOUND_ERROR_MSG;
+import static spark.Spark.*;
 
 /**
  * JSON方式数据的全局错误处理类
@@ -21,6 +22,11 @@ public class DefaultJsonExceptionHandler implements IExceptionHandler {
         exception(Exception.class, (exception, request, response) -> composeResponse(response, exception));
         // 全局后处理
         after((request, response) -> response.type("application/json"));
+        // 没有路由的报错
+        notFound((req, res) -> {
+            res.type("application/json");
+            return formatErrorMsg(NOT_FOUND_ERROR_CODE, NOT_FOUND_ERROR_MSG);
+        });
     }
 
     @Override

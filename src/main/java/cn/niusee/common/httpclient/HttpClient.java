@@ -6,6 +6,7 @@
 package cn.niusee.common.httpclient;
 
 import okhttp3.*;
+import org.jetbrains.annotations.NotNull;
 import spark.utils.StringUtils;
 
 import java.io.IOException;
@@ -119,7 +120,7 @@ public class HttpClient {
     /**
      * 回调封装
      */
-    private class CallbackWrapper implements Callback {
+    private static class CallbackWrapper implements Callback {
         /**
          * HTTP请求结果回调
          */
@@ -130,14 +131,14 @@ public class HttpClient {
         }
 
         @Override
-        public void onFailure(Call call, IOException e) {
+        public void onFailure(@NotNull Call call, @NotNull IOException e) {
             if (listener != null) {
                 listener.onResult(IO_ERROR, e.getMessage());
             }
         }
 
         @Override
-        public void onResponse(Call call, Response response) throws IOException {
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             if (listener != null) {
                 try {
                     int code = response.code();
@@ -209,7 +210,7 @@ public class HttpClient {
         // 请求体
         RequestBody requestBody = null;
         if (body != null) {
-            requestBody = RequestBody.create(MediaType.parse(body.bodyType), body.body);
+            requestBody = RequestBody.create(body.body, MediaType.parse(body.bodyType));
         }
         switch (method) {
             case Head:
@@ -219,13 +220,19 @@ public class HttpClient {
                 requestBuilder.get();
                 break;
             case Post:
-                requestBuilder.post(requestBody);
+                if (requestBody != null) {
+                    requestBuilder.post(requestBody);
+                }
                 break;
             case Put:
-                requestBuilder.put(requestBody);
+                if (requestBody != null) {
+                    requestBuilder.put(requestBody);
+                }
                 break;
             case Patch:
-                requestBuilder.patch(requestBody);
+                if (requestBody != null) {
+                    requestBuilder.patch(requestBody);
+                }
             case Delete:
                 if (requestBody != null) {
                     requestBuilder.delete(requestBody);
