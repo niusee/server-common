@@ -40,4 +40,27 @@ public final class NumberUtils {
         Pattern pattern = Pattern.compile("^[-+]?[.\\d]*$");
         return pattern.matcher(str).matches();
     }
+
+    /**
+     * 判断输入的数字是否是奇数
+     *
+     * @param number 输入的数字
+     * @return 是否是奇数
+     */
+    public static boolean isOdd(int number) {
+        return (number & 1) == 1;
+    }
+
+    /**
+     * 判断在误差允许范围，a是否大于b
+     *
+     * @param a     double类型的数字A
+     * @param b     double类型的数字B
+     * @param delta 误差允许范围
+     * @return 是否大于
+     */
+    public static boolean isBiggerThan(double a, double b, double delta) {
+        double realDelta = a - b;
+        return realDelta > delta;
+    }
 }

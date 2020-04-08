@@ -17,4 +17,8 @@ public class IllegalRequestParamException extends DefinedUser400Exception {
     public IllegalRequestParamException() {
         super(CommonError.ILLEGAL_REQUEST_PARAM);
     }
+
+    public IllegalRequestParamException(String extraMessage) {
+        super(CommonError.ILLEGAL_REQUEST_PARAM, extraMessage != null ? ": " + extraMessage : null);
+    }
 }

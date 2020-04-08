@@ -3,8 +3,10 @@
  *
  * Copyright 2015-2016 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.media;
+package cn.niusee.common.media.util;
 
+import cn.niusee.common.media.Media;
+import cn.niusee.common.media.SimpleMediaInfo;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
