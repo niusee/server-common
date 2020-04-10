@@ -35,31 +35,43 @@ public class EventTest extends TestCase {
         class TestEventListener implements ITestEventListener {
 
             public void onTestEvent(TestEvent event) {
-                System.out.println("event: " + event.id);
                 assertEquals(event.id, "test");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("event: " + event.id);
             }
         }
 
         TestEvent testEvent = new TestEvent("test");
         TestEventListener listener = new TestEventListener();
 
-        GlobalEventHandler.instance().register(listener);
-        GlobalEventHandler.instance().post(testEvent);
+        SingleGlobalEventHandler.instance().register(listener);
+        SingleGlobalEventHandler.instance().post(testEvent);
+        System.out.println("post event");
     }
 
     public void testAsyncEvent() {
         class TestEventListener implements ITestEventListener {
 
             public void onTestEvent(TestEvent event) {
-                System.out.println("event: " + event.id);
                 assertEquals(event.id, "testAsync");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("event: " + event.id);
             }
         }
 
         TestEvent testEvent = new TestEvent("testAsync");
         TestEventListener listener = new TestEventListener();
 
-        GlobalAsyncEventHandler.instance().register(listener);
-        GlobalAsyncEventHandler.instance().asyncPost(testEvent);
+        SingleGlobalAsyncEventHandler.instance().register(listener);
+        SingleGlobalAsyncEventHandler.instance().asyncPost(testEvent);
+        System.out.println("post async event");
     }
 }

@@ -20,22 +20,8 @@ public class GlobalAsyncEventHandler {
      */
     private final AsyncEventBus asyncEventBus;
 
-    private GlobalAsyncEventHandler() {
+    public GlobalAsyncEventHandler() {
         asyncEventBus = new AsyncEventBus(command -> new Thread(command).start());
-    }
-
-    /**
-     * 单例实例化
-     */
-    private static GlobalAsyncEventHandler instance = new GlobalAsyncEventHandler();
-
-    /**
-     * 获取配置单例
-     *
-     * @return 配置单例
-     */
-    public static GlobalAsyncEventHandler instance() {
-        return instance;
     }
 
     /**
