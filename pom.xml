@@ -6,7 +6,7 @@
 
     <groupId>cn.niusee</groupId>
     <artifactId>server-common</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
 
     <build>
         <plugins>
@@ -134,6 +134,12 @@
             <groupId>org.jmdns</groupId>
             <artifactId>jmdns</artifactId>
             <version>3.5.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.2-jre</version>
         </dependency>
     </dependencies>
 
