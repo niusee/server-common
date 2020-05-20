@@ -6,7 +6,7 @@
 
     <groupId>cn.niusee</groupId>
     <artifactId>server-common</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.1</version>
 
     <build>
         <plugins>
@@ -139,7 +139,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.2-jre</version>
+            <version>29.0-jre</version>
         </dependency>
     </dependencies>
 

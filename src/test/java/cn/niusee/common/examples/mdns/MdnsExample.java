@@ -25,7 +25,7 @@ public class MdnsExample {
             JmDNS jmdns = JmDNS.create(InetAddress.getLocalHost());
 
             // Register a service
-            ServiceInfo serviceInfo = ServiceInfo.create("_http._tcp.local.", "example", 1234, "path=index.html");
+            ServiceInfo serviceInfo = ServiceInfo.create("_http._tcp.local", "nscloud", 1234, "path=index.html");
             jmdns.registerService(serviceInfo);
 
             Thread.sleep(2000);
