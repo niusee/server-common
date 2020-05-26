@@ -7,8 +7,11 @@ package cn.niusee.common.taskpools;
 
 import cn.niusee.common.logger.LoggerHelper;
 
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * 基础线程任务执行管理类
@@ -110,7 +113,7 @@ public class SimpleTaskExecutors implements ITaskExecutors {
     /**
      * 任务ID的数值记录
      */
-    private final AtomicInteger taskNumber = new AtomicInteger(1);
+    private final AtomicLong taskNumber = new AtomicLong(1);
 
     public SimpleTaskExecutors(String tag, int corePoolSize) {
         this.tag = tag + "-";
