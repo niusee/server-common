@@ -9,7 +9,7 @@ import cn.niusee.common.logger.LoggerHelper;
 
 import java.util.Queue;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -152,7 +152,7 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
     /**
      * 任务ID的数值记录
      */
-    private final AtomicInteger taskNumber = new AtomicInteger(1);
+    private final AtomicLong taskNumber = new AtomicLong(1);
 
     public SimpleRetryTaskExecutors(String tag, int corePoolSize) {
         this.tag = EXECUTOR_NAME + tag + "-";
