@@ -8,8 +8,6 @@ package cn.niusee.common.route;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import static cn.niusee.common.route.IRouter.NOT_FOUND_ERROR_CODE;
-import static cn.niusee.common.route.IRouter.NOT_FOUND_ERROR_MSG;
 import static spark.Spark.*;
 
 /**
@@ -28,7 +26,7 @@ public class DefaultFromExceptionHandler implements IExceptionHandler {
         // 没有路由的报错
         notFound((req, res) -> {
             res.type("application/www-form-urlencoded");
-            return formatErrorMsg(NOT_FOUND_ERROR_CODE, NOT_FOUND_ERROR_MSG);
+            return formatErrorMsg(IRouter.NOT_FOUND_ERROR_CODE, IRouter.NOT_FOUND_ERROR_MSG);
         });
     }
 

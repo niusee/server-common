@@ -6,6 +6,7 @@
 package cn.niusee.common.httpclient;
 
 import okhttp3.*;
+import okhttp3.internal.annotations.EverythingIsNonNull;
 import spark.utils.StringUtils;
 
 import java.io.IOException;
@@ -21,12 +22,12 @@ public class HttpClient {
     /**
      * Form表单请求方式
      */
-    private static final String FORM = "application/x-www-form-urlencoded;charset=utf-8";
+    public static final MediaType FORM = MediaType.get("application/json; charset=utf-8");
 
     /**
      * Json请求方式
      */
-    private static final String JSON = "application/json;charset=utf-8";
+    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     /**
      * IO请求错误的代码
@@ -47,14 +48,14 @@ public class HttpClient {
         /**
          * 请求体类型
          */
-        private final String bodyType;
+        private final MediaType bodyType;
 
         /**
          * 请求体数据
          */
         private final String body;
 
-        Body(String bodyType, String body) {
+        Body(MediaType bodyType, String body) {
             this.bodyType = bodyType;
             this.body = body;
         }
@@ -130,6 +131,7 @@ public class HttpClient {
         }
 
         @Override
+        @EverythingIsNonNull
         public void onFailure(Call call, IOException e) {
             if (listener != null) {
                 listener.onResult(IO_ERROR, e.getMessage());
@@ -137,6 +139,7 @@ public class HttpClient {
         }
 
         @Override
+        @EverythingIsNonNull
         public void onResponse(Call call, Response response) throws IOException {
             if (listener != null) {
                 try {
@@ -209,7 +212,7 @@ public class HttpClient {
         // 请求体
         RequestBody requestBody = null;
         if (body != null) {
-            requestBody = RequestBody.create(MediaType.parse(body.bodyType), body.body);
+            requestBody = RequestBody.create(body.bodyType, body.body);
         }
         switch (method) {
             case Head:

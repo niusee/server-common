@@ -1,5 +1,6 @@
-package cn.niusee.common.httpclient;
+package cn.niusee.common.test.httpclient;
 
+import cn.niusee.common.httpclient.SingletonHttpClient;
 import junit.framework.TestCase;
 import okhttp3.Response;
 

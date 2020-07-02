@@ -10,7 +10,7 @@ public class RepeatedTaskExample {
 
     private static class TestTask implements IRetryTask {
 
-        private int myNum;
+        private final int myNum;
 
         private int currentNum = 0;
 
