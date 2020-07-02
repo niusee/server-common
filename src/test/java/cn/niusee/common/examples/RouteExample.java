@@ -5,7 +5,6 @@
  */
 package cn.niusee.common.examples;
 
-import cn.niusee.common.logger.LoggerHelper;
 import spark.Spark;
 
 /**
@@ -14,8 +13,6 @@ import spark.Spark;
  * @author Qianliang Zhang
  */
 public class RouteExample {
-
-    private final static LoggerHelper log = new LoggerHelper(RouteExample.class);
 
     public static void main(String[] args) {
         Spark.port(8899);

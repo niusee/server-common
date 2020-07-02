@@ -47,7 +47,7 @@ public class QuartzSchedulingService implements ISchedulingService {
     /**
      * 初始化计划服务单例
      */
-    private static QuartzSchedulingService instance = new QuartzSchedulingService();
+    private final static QuartzSchedulingService instance = new QuartzSchedulingService();
 
     /**
      * 获取计划服务单例

@@ -3,8 +3,12 @@
  *
  * Copyright 2015-2020 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.event;
+package cn.niusee.common.test.event;
 
+import cn.niusee.common.event.IEvent;
+import cn.niusee.common.event.IEventListener;
+import cn.niusee.common.event.SingleGlobalAsyncEventHandler;
+import cn.niusee.common.event.SingleGlobalEventHandler;
 import com.google.common.eventbus.Subscribe;
 import junit.framework.TestCase;
 

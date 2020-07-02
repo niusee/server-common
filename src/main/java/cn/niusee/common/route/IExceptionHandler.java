@@ -8,9 +8,6 @@ package cn.niusee.common.route;
 import cn.niusee.common.route.exception.RouteException;
 import spark.Response;
 
-import static cn.niusee.common.route.IRouter.UNKNOWN_ERROR_CODE;
-import static cn.niusee.common.route.IRouter.UNKNOWN_ERROR_MSG;
-
 /**
  * 全局错误信息处理接口定义类
  *
@@ -36,7 +33,7 @@ public interface IExceptionHandler {
             response.body(formatErrorMsg(routeException.getErrorCode(), routeException.getErrorMessage()));
         } else {
             response.status(400);
-            response.body(formatErrorMsg(UNKNOWN_ERROR_CODE, UNKNOWN_ERROR_MSG + exception.getMessage()));
+            response.body(formatErrorMsg(IRouter.UNKNOWN_ERROR_CODE, IRouter.UNKNOWN_ERROR_MSG + exception.getMessage()));
         }
     }
 

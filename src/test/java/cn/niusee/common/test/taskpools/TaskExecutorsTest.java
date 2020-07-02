@@ -3,8 +3,11 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.taskpools;
+package cn.niusee.common.test.taskpools;
 
+import cn.niusee.common.taskpools.ITask;
+import cn.niusee.common.taskpools.OnTaskCallback;
+import cn.niusee.common.taskpools.SimpleTaskExecutors;
 import junit.framework.TestCase;
 
 /**

@@ -3,8 +3,10 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.config;
+package cn.niusee.common.test.config;
 
+import cn.niusee.common.config.ConfigLoader;
+import cn.niusee.common.config.ConfigLoaderFactory;
 import junit.framework.TestCase;
 
 /**

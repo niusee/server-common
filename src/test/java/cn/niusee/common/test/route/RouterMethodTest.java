@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2018 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.route;
+package cn.niusee.common.test.route;
 
 import static spark.Spark.options;
 import static spark.Spark.post;
