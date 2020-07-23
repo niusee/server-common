@@ -1,5 +1,7 @@
 ### server-common - 服务公共库
 
+[![](https://jitpack.io/v/niusee/server-common.svg)](https://jitpack.io/#niusee/server-common)
+
 牛视服务公共库，包括：
  - config：配置公共库
  - logger：日记公共库
