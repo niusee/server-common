@@ -5,6 +5,8 @@
  */
 package cn.niusee.common.config;
 
+import spark.utils.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -77,11 +79,17 @@ public class ConfigLoader {
      * @return 配置项的值
      */
     public boolean getBoolean(String key, boolean defaultValue) {
-        try {
-            return Boolean.parseBoolean(get(key));
-        } catch (Exception e) {
-            // 防止解析出错
+        String value = get(key);
+        if (StringUtils.isEmpty(value)) {
+            return defaultValue;
         }
+        if (value.equalsIgnoreCase("false")) {
+            return false;
+        }
+        if (value.equalsIgnoreCase("true")) {
+            return true;
+        }
+        // 非boolean字符，直接用默认值
         return defaultValue;
     }
 
