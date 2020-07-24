@@ -19,7 +19,7 @@ public class SingleGlobalAsyncEventHandler extends GlobalAsyncEventHandler {
     /**
      * 单例实例化
      */
-    private static SingleGlobalAsyncEventHandler instance = new SingleGlobalAsyncEventHandler();
+    private final static SingleGlobalAsyncEventHandler instance = new SingleGlobalAsyncEventHandler();
 
     /**
      * 获取配置单例

@@ -11,6 +11,7 @@ import spark.utils.StringUtils;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * HTTP请求客户端
@@ -33,6 +34,26 @@ public class HttpClient {
      * IO请求错误的代码
      */
     private static final int IO_ERROR = 600;
+
+    /**
+     * 整个请求超时时间
+     */
+    public static int CALL_TIMEOUT = 0;
+
+    /**
+     * 请求连接超时时间
+     */
+    public static int CONNECT_TIMEOUT = 5_000;
+
+    /**
+     * 请求读取数据超时时间
+     */
+    public static int READ_TIMEOUT = 5_000;
+
+    /**
+     * 请求写数据超时时间
+     */
+    public static int WRITE_TIMEOUT = 5_000;
 
     /**
      * 请求方法
@@ -84,7 +105,33 @@ public class HttpClient {
     /**
      * 客户端
      */
-    private final OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client;
+
+    public HttpClient() {
+        this(null);
+    }
+
+    public HttpClient(OkHttpClient client) {
+        if (client == null) {
+            // 设置超时时间
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            if (CALL_TIMEOUT > 0) {
+                builder.callTimeout(CALL_TIMEOUT, TimeUnit.MILLISECONDS);
+            }
+            if (CONNECT_TIMEOUT > 0) {
+                builder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
+            }
+            if (READ_TIMEOUT > 0) {
+                builder.readTimeout(READ_TIMEOUT, TimeUnit.MILLISECONDS);
+            }
+            if (WRITE_TIMEOUT > 0) {
+                builder.writeTimeout(WRITE_TIMEOUT, TimeUnit.MILLISECONDS);
+            }
+            this.client = builder.build();
+        } else {
+            this.client = client;
+        }
+    }
 
     /**
      * 新建同步请求

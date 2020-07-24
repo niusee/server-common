@@ -10,13 +10,13 @@ package cn.niusee.common.route.exception;
  *
  * @author Qianliang Zhang
  */
-public class DefinedServer500Exception extends RouteException {
+public class DefinedServer500Exception extends Server500Exception {
 
     public DefinedServer500Exception(ErrorMessage error) {
         this(error, null);
     }
 
     public DefinedServer500Exception(ErrorMessage error, String extraMessage) {
-        super(500, error.getErrorCode(), error.getErrorMsg() + (extraMessage == null ? "" : extraMessage));
+        super(error.getErrorCode(), error.getErrorMsg() + (extraMessage == null ? "" : extraMessage));
     }
 }

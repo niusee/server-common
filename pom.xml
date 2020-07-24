@@ -6,7 +6,7 @@
 
     <groupId>cn.niusee</groupId>
     <artifactId>server-common</artifactId>
-    <version>0.5.4</version>
+    <version>0.5.5</version>
 
     <build>
         <plugins>

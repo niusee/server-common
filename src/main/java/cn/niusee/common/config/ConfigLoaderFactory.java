@@ -10,7 +10,7 @@ package cn.niusee.common.config;
  *
  * @author Qianliang Zhang
  */
-public class ConfigLoaderFactory {
+public final class ConfigLoaderFactory {
     private ConfigLoaderFactory() {
     }
 
