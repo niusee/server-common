@@ -19,7 +19,7 @@ public class SingleGlobalEventHandler extends GlobalEventHandler {
     /**
      * 单例实例化
      */
-    private static SingleGlobalEventHandler instance = new SingleGlobalEventHandler();
+    private final static SingleGlobalEventHandler instance = new SingleGlobalEventHandler();
 
     /**
      * 获取配置单例

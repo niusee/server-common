@@ -10,13 +10,13 @@ package cn.niusee.common.route.exception;
  *
  * @author Qianliang Zhang
  */
-public class DefinedServer503Exception extends RouteException {
+public class DefinedServer503Exception extends Server503Exception {
 
     public DefinedServer503Exception(ErrorMessage error) {
         this(error, null);
     }
 
     public DefinedServer503Exception(ErrorMessage error, String extraMessage) {
-        super(503, error.getErrorCode(), error.getErrorMsg() + (extraMessage == null ? "" : extraMessage));
+        super(error.getErrorCode(), error.getErrorMsg() + (extraMessage == null ? "" : extraMessage));
     }
 }

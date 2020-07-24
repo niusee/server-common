@@ -10,13 +10,13 @@ package cn.niusee.common.route.exception;
  *
  * @author Qianliang Zhang
  */
-public class DefinedUser404Exception extends RouteException {
+public class DefinedUser404Exception extends User404Exception {
 
     public DefinedUser404Exception(ErrorMessage error) {
         this(error, null);
     }
 
     public DefinedUser404Exception(ErrorMessage error, String extraMessage) {
-        super(404, error.getErrorCode(), error.getErrorMsg() + (extraMessage == null ? "" : extraMessage));
+        super(error.getErrorCode(), error.getErrorMsg() + (extraMessage == null ? "" : extraMessage));
     }
 }

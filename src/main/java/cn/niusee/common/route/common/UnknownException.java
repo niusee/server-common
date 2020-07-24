@@ -12,9 +12,9 @@ import cn.niusee.common.route.exception.DefinedUser400Exception;
  *
  * @author Qianliang Zhang
  */
-public class UnkownException extends DefinedUser400Exception {
+public class UnknownException extends DefinedUser400Exception {
 
-    public UnkownException() {
+    public UnknownException() {
         super(CommonError.UNKNOWN_ERROR);
     }
 }

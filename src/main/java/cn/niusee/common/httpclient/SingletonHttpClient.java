@@ -14,7 +14,7 @@ public final class SingletonHttpClient extends HttpClient {
     /**
      * 实例
      */
-    private static SingletonHttpClient ourInstance = new SingletonHttpClient();
+    private final static SingletonHttpClient ourInstance = new SingletonHttpClient();
 
     /**
      * HTTP请求单例
