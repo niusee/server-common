@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InterruptedIOException;
-import java.net.SocketTimeoutException;
 import java.util.Objects;
 
 /**
@@ -53,14 +52,14 @@ public class HttpClientTest {
         httpClient.get("http://dev1.niusee.cn/live2/api/v2/box");
     }
 
-    @Test(expected = SocketTimeoutException.class)
+    @Test(expected = InterruptedIOException.class)
     public void testConnectTimeout() throws IOException {
         HttpClient.CONNECT_TIMEOUT = 5;
         HttpClient httpClient = new HttpClient();
         httpClient.get("http://dev1.niusee.cn/live2/api/v2/box");
     }
 
-    @Test(expected = SocketTimeoutException.class)
+    @Test(expected = InterruptedIOException.class)
     public void testReadTimeout() throws IOException {
         HttpClient.READ_TIMEOUT = 5;
         HttpClient httpClient = new HttpClient();
