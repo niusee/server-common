@@ -5,6 +5,7 @@
  */
 package cn.niusee.common.test.taskpools;
 
+import cn.niusee.common.taskpools.INonCancelableTask;
 import cn.niusee.common.taskpools.ITask;
 import cn.niusee.common.taskpools.OnTaskCallback;
 import cn.niusee.common.taskpools.SimpleTaskExecutors;
@@ -47,6 +48,30 @@ public class TaskExecutorsTest extends TestCase {
                 public void onTaskFail(ITask task) {
                     System.out.println("test error: " + index);
                 }
+            });
+        }
+
+        for (int i = 11; i <= 20; i++) {
+            final int index = i;
+            executors.executeTaskWithoutCallback(new ITask() {
+                @Override
+                public void cancel() {
+
+                }
+
+                @Override
+                public boolean run() {
+                    System.out.println("test running: " + index);
+                    return true;
+                }
+            });
+        }
+
+        for (int i = 21; i <= 30; i++) {
+            final int index = i;
+            executors.executeTaskWithoutCallback((INonCancelableTask) () -> {
+                System.out.println("test running: " + index);
+                return true;
             });
         }
     }

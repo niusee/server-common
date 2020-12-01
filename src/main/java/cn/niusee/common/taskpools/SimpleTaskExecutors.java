@@ -134,9 +134,14 @@ public class SimpleTaskExecutors implements ITaskExecutors {
     }
 
     @Override
+    public String executeTaskWithoutCallback(ITask task) {
+        return executeTask(task, null);
+    }
+
+    @Override
     public void cancelTask(String taskId) {
         log.debug("Cancel task: {}", taskId);
-        // 检查是否存在等待队列中，直接移除
+        // 检查是否存在等待队列中（未开始），直接移除
         taskExecutors.getQueue().removeIf(runnable -> ((SimpleTaskWrapper) runnable).getTaskId().equals(taskId));
 
         // 检查运行队列

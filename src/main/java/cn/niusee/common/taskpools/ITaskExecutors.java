@@ -21,6 +21,14 @@ public interface ITaskExecutors {
     String executeTask(ITask task, OnTaskCallback onTaskCallback);
 
     /**
+     * 运行线程任务，不需要回调
+     *
+     * @param task 线程任务
+     * @return 返回分配给任务的任务ID
+     */
+    String executeTaskWithoutCallback(ITask task);
+
+    /**
      * 取消线程任务
      *
      * @param taskId 任务ID
