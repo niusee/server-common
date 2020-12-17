@@ -82,6 +82,11 @@ public class Media {
         private double duration;
 
         /**
+         * 视频的扫描方式。progressive：逐航扫描。‘tt’、‘bb’、‘tb’、‘bt’：隔行扫描
+         */
+        private String field_order;
+
+        /**
          * 获取流索引
          *
          * @return 流索引
@@ -196,6 +201,24 @@ public class Media {
          */
         public long getDurationInMilliseconds() {
             return (long) (duration * 1000);
+        }
+
+        /**
+         * 获取视频的扫描方式
+         *
+         * @return 视频的扫描方式
+         */
+        public String getFieldOrder() {
+            return field_order;
+        }
+
+        /**
+         * 是否是逐行扫描的视频
+         *
+         * @return 是否是逐行扫描的视频
+         */
+        public boolean isProgressiveVideo() {
+            return "progressive".equals(field_order);
         }
 
         @Override
