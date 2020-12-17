@@ -172,33 +172,6 @@ public class SimpleMediaInfo {
     }
 
     /**
-     * 格式化数字字符串为浮点数字
-     *
-     * @param floatStr 数字字符串
-     * @return 浮点数字
-     */
-    private double formatFloatStr2Double(String floatStr) {
-        if (floatStr == null) {
-            return 0;
-        }
-        double realFps;
-        if (NumberUtils.isDouble(floatStr)) {
-            // 数字形式
-            realFps = Double.parseDouble(floatStr);
-        } else {
-            // 25/1的形式
-            try {
-                String[] fpsNumbers = floatStr.split("/");
-                realFps = Double.parseDouble(fpsNumbers[0]) / Double.parseDouble(fpsNumbers[1]);
-            } catch (Exception e) {
-                return 0;
-            }
-        }
-        // 保留小数点2位
-        return Double.parseDouble(String.format("%.2f", realFps));
-    }
-
-    /**
      * 获取视频的帧率（浮点数模式）
      *
      * @return 视频的帧率（浮点数模式）
@@ -224,6 +197,16 @@ public class SimpleMediaInfo {
      */
     public double getAvgFpsInDouble() {
         return formatFloatStr2Double(getAvgFps());
+    }
+
+    /**
+     * 是否是逐行扫描的视频
+     *
+     * @return 是否是逐行扫描的视频
+     */
+    public boolean isProgressiveVideo() {
+        Media.Stream s = media.getFirstVideoStream();
+        return s != null && s.isProgressiveVideo();
     }
 
     /**
@@ -297,5 +280,32 @@ public class SimpleMediaInfo {
             return sb.toString();
         }
         return null;
+    }
+
+    /**
+     * 格式化数字字符串为浮点数字
+     *
+     * @param floatStr 数字字符串
+     * @return 浮点数字
+     */
+    private double formatFloatStr2Double(String floatStr) {
+        if (floatStr == null) {
+            return 0;
+        }
+        double realFps;
+        if (NumberUtils.isDouble(floatStr)) {
+            // 数字形式
+            realFps = Double.parseDouble(floatStr);
+        } else {
+            // 25/1的形式
+            try {
+                String[] fpsNumbers = floatStr.split("/");
+                realFps = Double.parseDouble(fpsNumbers[0]) / Double.parseDouble(fpsNumbers[1]);
+            } catch (Exception e) {
+                return 0;
+            }
+        }
+        // 保留小数点2位
+        return Double.parseDouble(String.format("%.2f", realFps));
     }
 }
