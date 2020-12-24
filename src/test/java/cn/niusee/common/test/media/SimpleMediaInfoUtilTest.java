@@ -6,7 +6,7 @@
 package cn.niusee.common.test.media;
 
 import cn.niusee.common.media.SimpleMediaInfo;
-import cn.niusee.common.media.util.SimpleMediaInfoUtil;
+import cn.niusee.common.media.util.SimpleMediaInfoUtils;
 import junit.framework.TestCase;
 
 /**
@@ -17,7 +17,7 @@ import junit.framework.TestCase;
 public class SimpleMediaInfoUtilTest extends TestCase {
 
     public void testMedia1() {
-        SimpleMediaInfo info = SimpleMediaInfoUtil.analyzeStreamInfo("/Users/qian/Downloads/videos/file/demo.mp4");
+        SimpleMediaInfo info = SimpleMediaInfoUtils.analyzeStreamInfo("/Users/qian/Downloads/videos/file/demo.mp4");
         assertEquals(info.getFormat(), "mov,mp4,m4a,3gp,3g2,mj2");
         assertEquals(info.getDurationInMilliseconds(), 91742);
         assertEquals(info.getDurationInSeconds(), 91.74);
@@ -42,7 +42,7 @@ public class SimpleMediaInfoUtilTest extends TestCase {
     }
 
     public void testMedia2() {
-        SimpleMediaInfo info = SimpleMediaInfoUtil.analyzeStreamInfo("/Users/qian/Downloads/videos/file/bunny.mp4");
+        SimpleMediaInfo info = SimpleMediaInfoUtils.analyzeStreamInfo("/Users/qian/Downloads/videos/file/bunny.mp4");
         assertEquals(info.getFormat(), "mov,mp4,m4a,3gp,3g2,mj2");
         assertEquals(info.getDurationInMilliseconds(), 596462);
         assertEquals(info.getDurationInSeconds(), 596.46);
