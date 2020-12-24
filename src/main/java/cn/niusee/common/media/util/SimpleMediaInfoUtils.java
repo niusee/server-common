@@ -20,10 +20,10 @@ import java.util.List;
  *
  * @author Qianliang Zhang
  */
-public final class SimpleMediaInfoUtil {
+public final class SimpleMediaInfoUtils {
 
     // 防止继承
-    private SimpleMediaInfoUtil() {
+    private SimpleMediaInfoUtils() {
         throw new RuntimeException("No implements");
     }
 
