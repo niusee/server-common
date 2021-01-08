@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.taskpools.repeat;
+package cn.niusee.common.taskpools.retrytask;
 
 /**
  * 重试任务的执行状态回调

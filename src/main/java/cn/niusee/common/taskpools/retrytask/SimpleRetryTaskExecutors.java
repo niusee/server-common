@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.taskpools.repeat;
+package cn.niusee.common.taskpools.retrytask;
 
 import cn.niusee.common.logger.LoggerHelper;
 
@@ -34,9 +34,14 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
         private final IRetryTask task;
 
         /**
-         * 当前运行次数序号
+         * 是否取消
          */
-        private int currentRunningIndex = 0;
+        private volatile boolean cancel = false;
+
+        /**
+         * 当前运行次数
+         */
+        private int currentRunningTimes = 0;
 
         /**
          * 重试任务状态回调
@@ -49,38 +54,20 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
             this.onRetryTaskCallback = onRetryTaskCallback;
         }
 
-        /**
-         * 分配任务的ID
-         *
-         * @return 分配任务的ID
-         */
-        String getTaskId() {
-            return taskId;
-        }
-
-        /**
-         * 获取重试线程任务类
-         *
-         * @return 重试线程任务类
-         */
-        IRetryTask getTask() {
-            return task;
-        }
-
         @Override
         public void run() {
             if (onRetryTaskCallback != null) {
                 // 第一次运行，回调开始
-                if (currentRunningIndex == 0) {
+                if (currentRunningTimes == 0) {
                     onRetryTaskCallback.onTaskStart(task);
                 } else {
-                    onRetryTaskCallback.onTaskRetry(task, currentRunningIndex);
+                    onRetryTaskCallback.onTaskRetry(task, currentRunningTimes);
                 }
             }
             boolean result = task.run();
             // 运行不成功，并且没到重试次数
-            if (!result && currentRunningIndex < task.getRetryTimes()) {
-                currentRunningIndex++;
+            if (!result && !cancel && currentRunningTimes < task.getRetryTimes()) {
+                currentRunningTimes++;
                 // 重新运行
                 retryTask(this);
             } else {
@@ -103,6 +90,7 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
          * 取消任务
          */
         private void cancel() {
+            cancel = true;
             task.cancel();
             // 下一个任务
             distributeNextTask();
@@ -113,11 +101,6 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
      * 日记
      */
     private static final LoggerHelper log = new LoggerHelper(SimpleRetryTaskExecutors.class);
-
-    /**
-     * 线程任务执行管理类名称前缀
-     */
-    private final static String EXECUTOR_NAME = "SimpleTaskExecutors-";
 
     /**
      * 线程任务执行管理类名称
@@ -155,7 +138,7 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
     private final AtomicLong taskNumber = new AtomicLong(1);
 
     public SimpleRetryTaskExecutors(String tag, int corePoolSize) {
-        this.tag = EXECUTOR_NAME + tag + "-";
+        this.tag = tag + "-";
         this.coreTaskSize = corePoolSize;
         retryTaskQueue = new ConcurrentLinkedQueue<>();
         taskExecutors = (ThreadPoolExecutor) Executors.newCachedThreadPool();
@@ -190,12 +173,7 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
      */
     private void addTask(SimpleRetryTaskWrapper retryTaskWrapper) {
         retryTaskQueue.add(retryTaskWrapper);
-        try {
-            lock.lock();
-            distributeTask();
-        } finally {
-            lock.unlock();
-        }
+        distributeNextTask();
     }
 
     /**
@@ -218,7 +196,7 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
     public String executeTask(IRetryTask task, OnRetryTaskCallback onRetryTaskCallback) {
         if (task != null) {
             String taskId = tag + taskNumber.getAndIncrement();
-            log.debug("add task: {}", taskId);
+            log.debug("add retry task: {}", taskId);
             // 添加任务
             addTask(new SimpleRetryTaskWrapper(taskId, task, onRetryTaskCallback));
             return taskId;
@@ -228,9 +206,9 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
 
     @Override
     public void cancelTask(String taskId) {
-        log.debug("cancel task: {}", taskId);
+        log.debug("cancel retry task: {}", taskId);
         // 检查是否存在等待队列中，直接移除
-        retryTaskQueue.removeIf(taskWrapper -> taskWrapper.getTaskId().equals(taskId));
+        retryTaskQueue.removeIf(taskWrapper -> taskWrapper.taskId.equals(taskId));
 
         // 检查是否在运行队列，移除
         if (runningTaskPool.containsKey(taskId)) {
