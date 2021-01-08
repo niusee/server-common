@@ -45,24 +45,6 @@ public class SimpleTaskExecutors implements ITaskExecutors {
             this.onTaskCallback = onTaskCallback;
         }
 
-        /**
-         * 分配任务的ID
-         *
-         * @return 分配任务的ID
-         */
-        String getTaskId() {
-            return taskId;
-        }
-
-        /**
-         * 获取线程任务类
-         *
-         * @return 线程任务类
-         */
-        ITask getTask() {
-            return task;
-        }
-
         @Override
         public void run() {
             runningTaskPool.put(taskId, this);
@@ -142,7 +124,7 @@ public class SimpleTaskExecutors implements ITaskExecutors {
     public void cancelTask(String taskId) {
         log.debug("Cancel task: {}", taskId);
         // 检查是否存在等待队列中（未开始），直接移除
-        taskExecutors.getQueue().removeIf(runnable -> ((SimpleTaskWrapper) runnable).getTaskId().equals(taskId));
+        taskExecutors.getQueue().removeIf(runnable -> ((SimpleTaskWrapper) runnable).taskId.equals(taskId));
 
         // 检查运行队列
         if (runningTaskPool.containsKey(taskId)) {

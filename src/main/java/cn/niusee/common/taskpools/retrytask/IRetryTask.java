@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.taskpools.repeat;
+package cn.niusee.common.taskpools.retrytask;
 
 import cn.niusee.common.taskpools.ITask;
 

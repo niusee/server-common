@@ -39,13 +39,14 @@ public class EventTest extends TestCase {
         class TestEventListener implements ITestEventListener {
 
             public void onTestEvent(TestEvent event) {
+                System.out.println(System.currentTimeMillis() + " before event: " + event.id);
                 assertEquals(event.id, "test");
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("event: " + event.id);
+                System.out.println(System.currentTimeMillis() + " after event: " + event.id);
             }
         }
 
@@ -54,20 +55,21 @@ public class EventTest extends TestCase {
 
         SingleGlobalEventHandler.instance().register(listener);
         SingleGlobalEventHandler.instance().post(testEvent);
-        System.out.println("post event");
+        System.out.println(System.currentTimeMillis() + " post event");
     }
 
     public void testAsyncEvent() {
         class TestEventListener implements ITestEventListener {
 
             public void onTestEvent(TestEvent event) {
+                System.out.println(System.currentTimeMillis() + " before event: " + event.id);
                 assertEquals(event.id, "testAsync");
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("event: " + event.id);
+                System.out.println(System.currentTimeMillis() + " after event: " + event.id);
             }
         }
 
@@ -76,6 +78,12 @@ public class EventTest extends TestCase {
 
         SingleGlobalAsyncEventHandler.instance().register(listener);
         SingleGlobalAsyncEventHandler.instance().asyncPost(testEvent);
-        System.out.println("post async event");
+        System.out.println(System.currentTimeMillis() + " post async event");
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

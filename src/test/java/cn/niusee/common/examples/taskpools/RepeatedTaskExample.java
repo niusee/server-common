@@ -1,8 +1,8 @@
 package cn.niusee.common.examples.taskpools;
 
-import cn.niusee.common.taskpools.repeat.IRetryTask;
-import cn.niusee.common.taskpools.repeat.OnRetryTaskCallback;
-import cn.niusee.common.taskpools.repeat.SimpleRetryTaskExecutors;
+import cn.niusee.common.taskpools.retrytask.IRetryTask;
+import cn.niusee.common.taskpools.retrytask.OnRetryTaskCallback;
+import cn.niusee.common.taskpools.retrytask.SimpleRetryTaskExecutors;
 
 import java.time.LocalDateTime;
 

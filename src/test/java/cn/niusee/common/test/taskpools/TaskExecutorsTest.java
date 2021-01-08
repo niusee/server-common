@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 public class TaskExecutorsTest extends TestCase {
 
     public void testTaskExecutors() {
-        SimpleTaskExecutors executors = new SimpleTaskExecutors("Test", 10);
+        SimpleTaskExecutors executors = new SimpleTaskExecutors("Test", 3);
         for (int i = 1; i <= 10; i++) {
             final int index = i;
             executors.executeTask(new ITask() {
