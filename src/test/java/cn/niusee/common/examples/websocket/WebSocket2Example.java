@@ -7,7 +7,6 @@ package cn.niusee.common.examples.websocket;
 
 import okhttp3.*;
 import okio.ByteString;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,27 +38,27 @@ public class WebSocket2Example extends WebSocketListener {
     }
 
     @Override
-    public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
+    public void onOpen(WebSocket webSocket, Response response) {
         System.out.println("Opened");
     }
 
     @Override
-    public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
+    public void onMessage(WebSocket webSocket, String text) {
         System.out.println("MESSAGE: " + text);
     }
 
     @Override
-    public void onMessage(@NotNull WebSocket webSocket, ByteString bytes) {
+    public void onMessage(WebSocket webSocket, ByteString bytes) {
         System.out.println("MESSAGE: " + bytes.hex());
     }
 
     @Override
-    public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
+    public void onClosing(WebSocket webSocket, int code, String reason) {
         System.out.println("CLOSE: " + code + " " + reason);
     }
 
     @Override
-    public void onFailure(@NotNull WebSocket webSocket, Throwable t, Response response) {
+    public void onFailure(WebSocket webSocket, Throwable t, Response response) {
         System.out.println("Fail");
         t.printStackTrace();
     }
