@@ -100,6 +100,20 @@ public class RouterTest {
             return "{\"success\":true}";
         });
 
+        options("book/:bookId", (request, response) -> {
+            String bookId = request.params(":bookId");
+            System.err.println("book id: " + bookId);
+            System.err.println(request.body());
+            return "";
+        });
+
+        post("book/:bookId", (request, response) -> {
+            String bookId = request.params(":bookId");
+            System.err.println("book id: " + bookId);
+            System.err.println(request.body());
+            return "{\"success\":true}";
+        });
+
         new DefaultJsonExceptionHandler().handleException();
     }
 
