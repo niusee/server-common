@@ -6,7 +6,7 @@
 package cn.niusee.common.httpclient;
 
 import okhttp3.*;
-import okhttp3.internal.annotations.EverythingIsNonNull;
+import org.jetbrains.annotations.NotNull;
 import spark.utils.StringUtils;
 
 import java.io.IOException;
@@ -178,16 +178,14 @@ public class HttpClient {
         }
 
         @Override
-        @EverythingIsNonNull
-        public void onFailure(Call call, IOException e) {
+        public void onFailure(@NotNull Call call, @NotNull IOException e) {
             if (listener != null) {
                 listener.onResult(IO_ERROR, e.getMessage());
             }
         }
 
         @Override
-        @EverythingIsNonNull
-        public void onResponse(Call call, Response response) throws IOException {
+        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
             if (listener != null) {
                 try {
                     int code = response.code();
@@ -259,7 +257,7 @@ public class HttpClient {
         // 请求体
         RequestBody requestBody = null;
         if (body != null) {
-            requestBody = RequestBody.create(body.bodyType, body.body);
+            requestBody = RequestBody.create(body.body, body.bodyType);
         }
         switch (method) {
             case Head:

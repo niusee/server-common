@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * @author Qianliang Zhang
  */
-public class HttpPoolTest {
+public class HttpPoolExample {
 
     private static class TaskHttpTask implements ITask {
 
