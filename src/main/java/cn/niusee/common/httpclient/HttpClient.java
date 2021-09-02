@@ -22,7 +22,7 @@ public class HttpClient {
     /**
      * Form表单请求方式
      */
-    public static final MediaType FORM = MediaType.get("application/json; charset=utf-8");
+    public static final MediaType FORM = MediaType.get("application/x-www-form-urlencoded; charset=utf-8");
 
     /**
      * Json请求方式
