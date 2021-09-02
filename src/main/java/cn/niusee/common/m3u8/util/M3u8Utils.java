@@ -7,11 +7,13 @@ package cn.niusee.common.m3u8.util;
 
 import cn.niusee.common.httpclient.SingletonHttpClient;
 import cn.niusee.common.m3u8.*;
+import cn.niusee.common.utils.HttpUtils;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,67 +53,6 @@ public final class M3u8Utils {
     }
 
     /**
-     * 根据URL分析前缀地址
-     *
-     * @param url 录制地址
-     * @return 前缀地址
-     */
-    private static String analyzePrefixUrl(String url) {
-        return url.substring(0, url.lastIndexOf("/") + 1);
-    }
-
-    /**
-     * 获取TS切片完整的播放地址
-     *
-     * @param parentUrl m3u8播放地址前缀
-     * @param tsClipUrl ts切片的地址
-     * @return TS切片完整的播放地址
-     */
-    private static String fixTsClipUrl(String parentUrl, String tsClipUrl) {
-        if (tsClipUrl.startsWith("http://") || tsClipUrl.startsWith("https://")) {
-            return tsClipUrl;
-        }
-        return parentUrl + tsClipUrl;
-    }
-
-    /**
-     * 拷贝ts切片信息
-     *
-     * @param element  ts切片信息
-     * @param fixedUrl 前缀Url
-     * @return 拷贝后的ts切片信息
-     */
-    private static Element copyElement(Element element, String fixedUrl) {
-        ElementBuilder builder = new ElementBuilder()
-                .discontinuity(element.isDiscontinuity())
-                .encrypted(element.getEncryptionInfo())
-                .duration(element.getExactDuration())
-                .title(element.getTitle())
-                // 源地址+切片地址
-                .uri(M3u8Utils.fixTsClipUrl(analyzePrefixUrl(fixedUrl), element.getURI()));
-        return builder.create();
-    }
-
-    /**
-     * 拷贝全部ts切片信息
-     *
-     * @param elements ts切片信息
-     * @param fixedUrl 前缀Url
-     * @return 拷贝后的ts切片信息
-     */
-    private static List<Element> copyAllElement(List<Element> elements, String fixedUrl) {
-        List<Element> resultElements = new ArrayList<>(elements.size());
-        for (Element element : elements) {
-            resultElements.add(copyElement(element, fixedUrl));
-        }
-        // 添加断点标记
-        if (!resultElements.isEmpty() && !resultElements.get(0).isDiscontinuity()) {
-            resultElements.get(0).setDiscontinuity(true);
-        }
-        return resultElements;
-    }
-
-    /**
      * 解析M3U8列表
      *
      * @param url m3u8地址
@@ -127,14 +68,96 @@ public final class M3u8Utils {
     }
 
     /**
-     * 播放列表修改添加前缀地址
+     * 获取TS切片的绝对路径
      *
-     * @param prefixUrl 前缀地址
-     * @param playlist  原播放列表
+     * @param m3u8Url    m3u8播放地址
+     * @param elementUrl ts切片的地址
+     * @return TS切片的绝对路径
+     */
+    private static String getElementAbsolutePath(String m3u8Url, String elementUrl) {
+        if (elementUrl.startsWith("http://") || elementUrl.startsWith("https://")) {
+            if (HttpUtils.isUrlHostAndPortSame(new String[]{m3u8Url, elementUrl})) {
+                return HttpUtils.getPath(elementUrl);
+            }
+            return elementUrl;
+        }
+
+        if (elementUrl.startsWith("/")) {
+            return elementUrl;
+        }
+
+        return new File(new File(HttpUtils.getPath2(m3u8Url)).getParent(), elementUrl).getAbsolutePath();
+    }
+
+    /**
+     * 获取TS切片完整访问地址
+     *
+     * @param m3u8Url    m3u8播放地址
+     * @param elementUrl ts切片的地址
+     * @return TS切片完整访问地址
+     */
+    private static String getElementRequestUrl(String m3u8Url, String elementUrl) {
+        if (elementUrl.startsWith("http://") || elementUrl.startsWith("https://")) {
+            return elementUrl;
+        }
+
+        if (elementUrl.startsWith("/")) {
+            try {
+                URL requestUrl = new URL(m3u8Url);
+                return requestUrl.getProtocol() + "://" + requestUrl.getAuthority() + elementUrl;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        return m3u8Url.substring(0, m3u8Url.lastIndexOf("/") + 1) + elementUrl;
+    }
+
+    /**
+     * 拷贝ts切片信息，地址为绝对路径地址
+     *
+     * @param element ts切片信息
+     * @param m3u8Url m3u8地址
+     * @return 拷贝后的ts切片信息
+     */
+    private static Element copyElement2AbsolutePath(Element element, String m3u8Url) {
+        ElementBuilder builder = new ElementBuilder()
+                .discontinuity(element.isDiscontinuity())
+                .encrypted(element.getEncryptionInfo())
+                .duration(element.getExactDuration())
+                .title(element.getTitle())
+                // 更换成绝对路径地址
+                .uri(getElementAbsolutePath(m3u8Url, element.getURI()));
+        return builder.create();
+    }
+
+    /**
+     * 拷贝全部ts切片信息，地址为绝对路径地址
+     *
+     * @param elements ts切片信息
+     * @param m3u8Url  m3u8播放地址
+     * @return 拷贝后的ts切片信息
+     */
+    private static List<Element> copyAllElement2AbsolutePath(List<Element> elements, String m3u8Url) {
+        List<Element> resultElements = new ArrayList<>(elements.size());
+        for (Element element : elements) {
+            resultElements.add(copyElement2AbsolutePath(element, m3u8Url));
+        }
+        // 添加断点标记
+        if (!resultElements.isEmpty() && !resultElements.get(0).isDiscontinuity()) {
+            resultElements.get(0).setDiscontinuity(true);
+        }
+        return resultElements;
+    }
+
+    /**
+     * 播放列表切片地址改成绝对路径
+     *
+     * @param m3u8Url  m3u8播放地址
+     * @param playlist 原播放列表
      * @return 修复好的播放列表
      */
-    public static Playlist fixPlaylistWithPrefixUrl(String prefixUrl, Playlist playlist) {
-        List<Element> fixedElements = copyAllElement(playlist.getElements(), prefixUrl);
+    public static Playlist copyPlaylist2AbsolutePath(String m3u8Url, Playlist playlist) {
+        List<Element> fixedElements = copyAllElement2AbsolutePath(playlist.getElements(), m3u8Url);
         return new Playlist(Collections.unmodifiableList(fixedElements), playlist.isEndSet(),
                 playlist.getVersion(), playlist.getTargetDuration(), playlist.getMediaSequenceNumber());
     }
@@ -142,13 +165,13 @@ public final class M3u8Utils {
     /**
      * 合并所有切片
      *
-     * @param isFixedUrl 是否修复url地址
-     * @param urls       合并的m3u8地址
+     * @param is2AbsolutePath 是否转为绝对路径
+     * @param urls            合并的m3u8地址
      * @return 合并结果列表
      * @throws IOException        获取m3u8内容的请求错误
      * @throws M3u8ParseException m3u8解析错误
      */
-    public static Playlist merge(boolean isFixedUrl, String... urls) throws IOException, M3u8ParseException {
+    public static Playlist merge(boolean is2AbsolutePath, String... urls) throws IOException, M3u8ParseException {
         // 版本信息
         int version = -1;
         // 最大切片长度信息
@@ -175,14 +198,81 @@ public final class M3u8Utils {
             }
             // 第一个切片设置变化
             playlist.getElements().get(0).setDiscontinuity(true);
-            // 是否添加修复地址
-            if (isFixedUrl) {
-                resultElements.addAll(copyAllElement(playlist.getElements(), url));
+            // 是否转为绝对路径
+            if (is2AbsolutePath) {
+                resultElements.addAll(copyAllElement2AbsolutePath(playlist.getElements(), url));
             } else {
                 resultElements.addAll(playlist.getElements());
             }
         }
         return new Playlist(Collections.unmodifiableList(resultElements), true,
                 version, targetDuration, mediaSequenceNumber);
+    }
+
+    /**
+     * 剪切ts切片输出到流数据
+     *
+     * @param elementUri Ts切片地址
+     * @param start      截取开始时间点
+     * @param end        截取结束时间点
+     * @return 剪切结果
+     */
+    public static InputStream cutElement2Stream(String elementUri, double start, double end) {
+        // Ffmpeg 运行命令
+        List<String> command = new ArrayList<>();
+        command.add("ffmpeg");
+        command.add("-loglevel");
+        command.add("fatal");
+        // 剪辑时间参数
+        command.add("-y");
+        if (start > 0) {
+            command.add("-ss");
+            command.add(Double.toString(start));
+        }
+        if (end > 0) {
+            command.add("-t");
+            command.add(Double.toString(end - start));
+        }
+        command.add("-i");
+        command.add(elementUri);
+        command.add("-vsync");
+        command.add("0");
+        command.add("-copyts");
+        command.add("-c");
+        command.add("copy");
+        command.add("-f");
+        command.add("mpegts");
+        command.add("-");
+
+        ProcessBuilder pb = new ProcessBuilder(command).directory(null);
+        pb.redirectErrorStream(true);
+        Process p = null;
+
+        try {
+            p = pb.start();
+            // 读取输出数据
+            InputStream inputStream = p.getInputStream();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = inputStream.read(buffer)) > -1) {
+                byteArrayOutputStream.write(buffer, 0, len);
+            }
+            byteArrayOutputStream.flush();
+            try {
+                p.waitFor();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (p != null) {
+                p.destroy();
+            }
+        }
+        return null;
     }
 }

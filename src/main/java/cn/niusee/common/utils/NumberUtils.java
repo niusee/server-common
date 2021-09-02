@@ -5,6 +5,7 @@
  */
 package cn.niusee.common.utils;
 
+import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
 /**
@@ -62,5 +63,36 @@ public final class NumberUtils {
     public static boolean isBiggerThan(double a, double b, double delta) {
         double realDelta = a - b;
         return realDelta > delta;
+    }
+
+    /**
+     * 格式化浮点数的小数点为下划线
+     *
+     * @param number 浮点数
+     * @return 格式化输出后的字符串
+     */
+    public static String formatDoubleDotWithUnderline(double number) {
+        return Double.toString(number).replace(".", "_");
+    }
+
+    /**
+     * 格式化浮点数的小数点为空
+     *
+     * @param number 浮点数
+     * @return 格式化输出后的字符串
+     */
+    public static String formatDoubleDotWithBlank(double number) {
+        return Double.toString(number).replace(".", "");
+    }
+
+    /**
+     * 浮点数保留三位小数点
+     *
+     * @param num 输入浮点数数据
+     * @return 三位小数点浮点数
+     */
+    public static double roundDoubleWith3Decimal(double num) {
+        DecimalFormat df = new DecimalFormat("0.000");
+        return Double.parseDouble(df.format(num));
     }
 }
