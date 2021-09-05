@@ -32,7 +32,7 @@ public final class M3u8Utils {
      * @return M3U8的列表内容
      * @throws IOException m3u8地址请求错误
      */
-    private static String fetchM3u8Content(String url) throws IOException {
+    public static String fetchM3u8Content(String url) throws IOException {
         // 为了减少https的超时时间的损耗，使用http
         String httpUrl = url;
         if (httpUrl.startsWith("https://")) {
@@ -74,7 +74,7 @@ public final class M3u8Utils {
      * @param elementUrl ts切片的地址
      * @return TS切片的绝对路径
      */
-    private static String getElementAbsolutePath(String m3u8Url, String elementUrl) {
+    public static String getElementAbsolutePath(String m3u8Url, String elementUrl) {
         if (elementUrl.startsWith("http://") || elementUrl.startsWith("https://")) {
             if (HttpUtils.isUrlHostAndPortSame(new String[]{m3u8Url, elementUrl})) {
                 return HttpUtils.getPath(elementUrl);
@@ -96,7 +96,7 @@ public final class M3u8Utils {
      * @param elementUrl ts切片的地址
      * @return TS切片完整访问地址
      */
-    private static String getElementRequestUrl(String m3u8Url, String elementUrl) {
+    public static String getElementRequestUrl(String m3u8Url, String elementUrl) {
         if (elementUrl.startsWith("http://") || elementUrl.startsWith("https://")) {
             return elementUrl;
         }
