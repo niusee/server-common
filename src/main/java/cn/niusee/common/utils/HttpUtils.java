@@ -10,6 +10,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -145,12 +146,34 @@ public class HttpUtils {
     }
 
     /**
-     * 地址的HOST是否相同
+     * 获取给定URL的父Path
      *
-     * @param urls 地址的HOST集合
+     * @param url 给定URL
+     * @return URL的父Path
+     */
+    public static String getParentPath(String url) {
+        String path = getPath(url);
+        return new File(path).getParent() + "/";
+    }
+
+    /**
+     * 获取给定URL的父Path
+     *
+     * @param url 给定URL
+     * @return URL的父Path
+     */
+    public static String getParentPath2(String url) {
+        String path = getPath2(url);
+        return new File(path).getParent() + "/";
+    }
+
+    /**
+     * 地址的Host和Port是否相同
+     *
+     * @param urls 地址的url集合
      * @return true相同，false不相同
      */
-    public static boolean isUrlHostAndPortSame(String[] urls) {
+    public static boolean isSameHostAndPort(String[] urls) {
         if (urls == null || urls.length < 2) {
             throw new IllegalArgumentException("url length must > 1");
         }
@@ -158,6 +181,28 @@ public class HttpUtils {
         int standardPort = getPort(urls[0]);
         for (int i = 1, len = urls.length; i < len; i++) {
             if (!(standardHost.equals(getHost(urls[i])) && standardPort == getPort(urls[i]))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 地址的Host、Port、Parent path是否相同
+     *
+     * @param urls 地址的url集合
+     * @return true相同，false不相同
+     */
+    public static boolean isSameHostAndPortAndParentPath(String[] urls) {
+        if (urls == null || urls.length < 2) {
+            throw new IllegalArgumentException("url length must > 1");
+        }
+        String standardHost = getHost(urls[0]);
+        int standardPort = getPort(urls[0]);
+        String standardParentPath = getParentPath(urls[0]);
+        for (int i = 1, len = urls.length; i < len; i++) {
+            if (!(standardHost.equals(getHost(urls[i])) && standardPort == getPort(urls[i])
+                    && standardParentPath.equals(getParentPath(urls[i])))) {
                 return false;
             }
         }
@@ -189,46 +234,5 @@ public class HttpUtils {
                 }
             }
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getAuthority("https://media.niusee.cn/1/2.m3u8"));
-        System.out.println(getAuthority2("https://media.niusee.cn/1/2.m3u8"));
-        System.out.println(getAuthority("https://media.niusee.cn:80/2/3.m3u8"));
-        System.out.println(getAuthority2("https://media.niusee.cn:80/2/3.m3u8"));
-        System.out.println(getAuthority("https://media.niusee.cn:8080/3/4.m3u8"));
-        System.out.println(getAuthority2("https://media.niusee.cn:8080/3/4.m3u8"));
-
-        System.out.println(getHost("https://media.niusee.cn/1/2.m3u8"));
-        System.out.println(getHost2("https://media.niusee.cn/1/2.m3u8"));
-        System.out.println(getHost("https://media.niusee.cn:80/2/3.m3u8"));
-        System.out.println(getHost2("https://media.niusee.cn:80/2/3.m3u8"));
-        System.out.println(getHost("https://media.niusee.cn:8080/3/4.m3u8"));
-        System.out.println(getPath2("https://media.niusee.cn:8080/3/4.m3u8"));
-
-        System.out.println(getPort("https://media.niusee.cn/1/2.m3u8"));
-        System.out.println(getPort2("https://media.niusee.cn/1/2.m3u8"));
-        System.out.println(getPort("https://media.niusee.cn:80/2/3.m3u8"));
-        System.out.println(getPort2("https://media.niusee.cn:80/2/3.m3u8"));
-        System.out.println(getPort("https://media.niusee.cn:8080/3/4.m3u8"));
-        System.out.println(getPort2("https://media.niusee.cn:8080/3/4.m3u8"));
-
-        System.out.println(getPath("https://media.niusee.cn/1/2.m3u8"));
-        System.out.println(getPath2("https://media.niusee.cn/1/2.m3u8"));
-        System.out.println(getPath("https://media.niusee.cn:80/2/3.m3u8"));
-        System.out.println(getPath2("https://media.niusee.cn:80/2/3.m3u8"));
-        System.out.println(getPath("https://media.niusee.cn:8080/3/4.m3u8"));
-        System.out.println(getPath2("https://media.niusee.cn:8080/3/4.m3u8"));
-
-        System.out.println(isUrlHostAndPortSame(new String[]{
-                "https://media.niusee.cn/1/2.m3u8",
-                "https://media.niusee.cn/2/3.m3u8",
-                "https://media.niusee.cn:80/3/4.m3u8"}));
-
-        System.out.println(isUrlHostAndPortSame(new String[]{
-                "https://media.niusee.cn/1/2.m3u8",
-                "https://media.niusee.cn:80/2/3.m3u8",
-                "https://media.niusee.cn:8080/3/4.m3u8"}));
-
     }
 }
