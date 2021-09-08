@@ -172,7 +172,7 @@ public final class Playlist implements Iterable<Element> {
     /**
      * 整理数据
      */
-    public void fix() {
+    public void fixTargetDuration() {
         double realTargetDuration = -1;
         for (Element element : elements) {
             if (element.getExactDuration() > realTargetDuration) {
