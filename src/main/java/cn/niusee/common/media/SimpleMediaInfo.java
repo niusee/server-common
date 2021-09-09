@@ -113,9 +113,29 @@ public class SimpleMediaInfo {
     }
 
     /**
-     * 获取视频的编码格式
+     * 获取视频的编码Profile
      *
-     * @return 视频的编码格式
+     * @return 视频的编码Profile
+     */
+    public String getVideoProfile() {
+        Media.Stream s = media.getFirstVideoStream();
+        return s == null ? null : s.getProfile();
+    }
+
+    /**
+     * 获取视频的编码pix_fmt
+     *
+     * @return 视频的编码pix_fmt
+     */
+    public String getVideoPixFmt() {
+        Media.Stream s = media.getFirstVideoStream();
+        return s == null ? null : s.getPixFmt();
+    }
+
+    /**
+     * 获取视频的时长
+     *
+     * @return 视频的时长
      */
     public long getVideoDuration() {
         Media.Stream s = media.getFirstVideoStream();
@@ -267,7 +287,8 @@ public class SimpleMediaInfo {
                     append(getDurationInMilliseconds()).append(", bit_rate=").append(getBitrate()).append("}");
             // 视频
             if (hasVideo()) {
-                sb.append(", video={").append("codec_name=").append(getVideoCodec()).append(", size=").
+                sb.append(", video={").append("codec_name=").append(getVideoCodec()).append(", profile=").
+                        append(getVideoProfile()).append(", pix_fmt=").append(getVideoPixFmt()).append(", size=").
                         append(getSize()).append(", fps=").append(getAvgFps()).append(", bit_rate=").
                         append(getVideoBitrate()).append("}");
             }
