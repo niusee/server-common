@@ -10,6 +10,7 @@ import cn.niusee.common.m3u8.*;
 import cn.niusee.common.utils.HttpUtils;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import spark.utils.StringUtils;
 
 import java.io.*;
 import java.net.MalformedURLException;
@@ -33,12 +34,12 @@ public final class M3u8Utils {
     /**
      * 获取M3U8的列表内容，并设定请求的Headers
      *
-     * @param url     m3u8地址
      * @param headers 请求的Headers
+     * @param url     m3u8地址
      * @return M3U8的列表内容
      * @throws IOException m3u8地址请求错误
      */
-    public static String fetchM3u8ContentWithHeaders(String url, Map<String, String> headers) throws IOException {
+    public static String fetchM3u8ContentWithHeaders(Map<String, String> headers, String url) throws IOException {
         // 为了减少https的超时时间的损耗，使用http
         String httpUrl = url;
         if (httpUrl.startsWith(HTTPS_START_SCHEME)) {
@@ -66,22 +67,22 @@ public final class M3u8Utils {
      * @throws IOException m3u8地址请求错误
      */
     public static String fetchM3u8Content(String url) throws IOException {
-        return fetchM3u8ContentWithHeaders(url, null);
+        return fetchM3u8ContentWithHeaders(null, url);
     }
 
     /**
-     * 根据请求地址，并设定请求的Headers， 解析M3U8列表
+     * 根据请求地址，并设定请求的Headers，解析M3U8列表
      *
-     * @param url     m3u8地址
      * @param headers 请求的Headers
+     * @param url     m3u8地址
      * @return M3U8列表
      * @throws IOException        m3u8地址请求错误
      * @throws M3u8ParseException m3u8解析错误
      */
-    public static Playlist parsePlaylistFromUrlWithHeaders(String url, Map<String, String> headers) throws IOException,
+    public static Playlist parsePlaylistFromUrlWithHeaders(Map<String, String> headers, String url) throws IOException,
             M3u8ParseException {
         // 请求M3U8的列表内容
-        String content = fetchM3u8ContentWithHeaders(url, headers);
+        String content = fetchM3u8ContentWithHeaders(headers, url);
         // 源m3u8列表
         return new PlaylistParser(PlaylistType.M3U8).parse(new StringReader(content));
     }
@@ -95,7 +96,7 @@ public final class M3u8Utils {
      * @throws M3u8ParseException m3u8解析错误
      */
     public static Playlist parsePlaylistFromUrl(String url) throws IOException, M3u8ParseException {
-        return parsePlaylistFromUrlWithHeaders(url, null);
+        return parsePlaylistFromUrlWithHeaders(null, url);
     }
 
     /**
@@ -316,15 +317,17 @@ public final class M3u8Utils {
     }
 
     /**
-     * 合并所有切片
+     * 根据指定的headers，分析m3u8地址，合并生成新的m3u8列表
      *
      * @param outputUrl 是否转为绝对路径
+     * @param headers   请求的Headers
      * @param urls      合并的m3u8地址
      * @return 合并结果列表
      * @throws IOException        获取m3u8内容的请求错误
      * @throws M3u8ParseException m3u8解析错误
      */
-    public static Playlist merge(String outputUrl, String... urls) throws IOException, M3u8ParseException {
+    public static Playlist mergeWithHeader(String outputUrl, Map<String, String> headers, String... urls)
+            throws IOException, M3u8ParseException {
         // 版本信息
         int version = -1;
         // 最大切片长度信息
@@ -341,7 +344,7 @@ public final class M3u8Utils {
                 && HttpUtils.isSameHostAndPortAndParentPath(allUrls);
         for (String url : urls) {
             // m3u8列表
-            Playlist playlist = parsePlaylistFromUrl(url);
+            Playlist playlist = parsePlaylistFromUrlWithHeaders(headers, url);
             if (playlist.getElements().isEmpty()) {
                 continue;
             }
@@ -371,19 +374,43 @@ public final class M3u8Utils {
     }
 
     /**
+     * 分析m3u8地址，合并生成新的m3u8列表
+     *
+     * @param outputUrl 是否转为绝对路径
+     * @param urls      合并的m3u8地址
+     * @return 合并结果列表
+     * @throws IOException        获取m3u8内容的请求错误
+     * @throws M3u8ParseException m3u8解析错误
+     */
+    public static Playlist merge(String outputUrl, String... urls) throws IOException,
+            M3u8ParseException {
+        return mergeWithHeader(outputUrl, null, urls);
+    }
+
+    /**
      * 剪切ts切片输出到流数据
      *
+     * @param headers    请求的Headers
      * @param elementUri Ts切片地址
      * @param start      截取开始时间点
      * @param end        截取结束时间点
      * @return 剪切结果
      */
-    public static InputStream cutElement2Stream(String elementUri, double start, double end) {
+    public static byte[] cutElement2ByteDataWithHeader(Map<String, String> headers, String elementUri,
+                                                       double start, double end) {
         // Ffmpeg 运行命令
         List<String> command = new ArrayList<>();
         command.add("ffmpeg");
         command.add("-loglevel");
         command.add("fatal");
+        if (headers != null && !headers.isEmpty()) {
+            headers.forEach((key, value) -> {
+                if (StringUtils.isNotBlank(key) && StringUtils.isNotBlank(value)) {
+                    command.add("-headers");
+                    command.add("\\'" + key + ":" + value + "\\'");
+                }
+            });
+        }
         // 剪辑时间参数
         command.add("-y");
         if (start > 0) {
@@ -426,7 +453,7 @@ public final class M3u8Utils {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            return byteArrayOutputStream.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -435,5 +462,17 @@ public final class M3u8Utils {
             }
         }
         return null;
+    }
+
+    /**
+     * 剪切ts切片输出到流数据
+     *
+     * @param elementUri Ts切片地址
+     * @param start      截取开始时间点
+     * @param end        截取结束时间点
+     * @return 剪切结果
+     */
+    public static byte[] cutElement2ByteData(String elementUri, double start, double end) {
+        return cutElement2ByteDataWithHeader(null, elementUri, start, end);
     }
 }
