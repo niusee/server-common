@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * M3u8视频工具类
@@ -30,19 +31,20 @@ public final class M3u8Utils {
     private final static String HTTP_START_SCHEME = "http://";
 
     /**
-     * 获取M3U8的列表内容
+     * 获取M3U8的列表内容，并设定请求的Headers
      *
-     * @param url m3u8地址
+     * @param url     m3u8地址
+     * @param headers 请求的Headers
      * @return M3U8的列表内容
      * @throws IOException m3u8地址请求错误
      */
-    public static String fetchM3u8Content(String url) throws IOException {
+    public static String fetchM3u8ContentWithHeaders(String url, Map<String, String> headers) throws IOException {
         // 为了减少https的超时时间的损耗，使用http
         String httpUrl = url;
         if (httpUrl.startsWith(HTTPS_START_SCHEME)) {
             httpUrl = url.replace(HTTPS_START_SCHEME, HTTP_START_SCHEME);
         }
-        try (Response response = SingletonHttpClient.getInstance().get(httpUrl)) {
+        try (Response response = SingletonHttpClient.getInstance().get(headers, httpUrl)) {
             ResponseBody body = response.body();
             String content = body != null ? body.string() : null;
             if (!response.isSuccessful()) {
@@ -57,7 +59,35 @@ public final class M3u8Utils {
     }
 
     /**
-     * 解析M3U8列表
+     * 获取M3U8的列表内容
+     *
+     * @param url m3u8地址
+     * @return M3U8的列表内容
+     * @throws IOException m3u8地址请求错误
+     */
+    public static String fetchM3u8Content(String url) throws IOException {
+        return fetchM3u8ContentWithHeaders(url, null);
+    }
+
+    /**
+     * 根据请求地址，并设定请求的Headers， 解析M3U8列表
+     *
+     * @param url     m3u8地址
+     * @param headers 请求的Headers
+     * @return M3U8列表
+     * @throws IOException        m3u8地址请求错误
+     * @throws M3u8ParseException m3u8解析错误
+     */
+    public static Playlist parsePlaylistFromUrlWithHeaders(String url, Map<String, String> headers) throws IOException,
+            M3u8ParseException {
+        // 请求M3U8的列表内容
+        String content = fetchM3u8ContentWithHeaders(url, headers);
+        // 源m3u8列表
+        return new PlaylistParser(PlaylistType.M3U8).parse(new StringReader(content));
+    }
+
+    /**
+     * 根据请求地址，解析M3U8列表
      *
      * @param url m3u8地址
      * @return M3U8列表
@@ -65,10 +95,7 @@ public final class M3u8Utils {
      * @throws M3u8ParseException m3u8解析错误
      */
     public static Playlist parsePlaylistFromUrl(String url) throws IOException, M3u8ParseException {
-        // 请求M3U8的列表内容
-        String content = fetchM3u8Content(url);
-        // 源m3u8列表
-        return new PlaylistParser(PlaylistType.M3U8).parse(new StringReader(content));
+        return parsePlaylistFromUrlWithHeaders(url, null);
     }
 
     /**
