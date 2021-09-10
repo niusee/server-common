@@ -219,6 +219,11 @@ public class SimpleMediaInfo {
         return formatFloatStr2Double(getAvgFps());
     }
 
+    public String getFieldOrder() {
+        Media.Stream s = media.getFirstVideoStream();
+        return s == null ? null : s.getFieldOrder();
+    }
+
     /**
      * 是否是逐行扫描的视频
      *
@@ -227,6 +232,11 @@ public class SimpleMediaInfo {
     public boolean isProgressiveVideo() {
         Media.Stream s = media.getFirstVideoStream();
         return s != null && s.isProgressiveVideo();
+    }
+
+    public boolean isInterlacedVideo() {
+        Media.Stream s = media.getFirstVideoStream();
+        return s != null && s.isInterlacedVideo();
     }
 
     /**
@@ -283,20 +293,25 @@ public class SimpleMediaInfo {
     public String toString() {
         if (isMediaValid()) {
             StringBuilder sb = new StringBuilder("{");
-            sb.append("format={").append("format_name=").append(getFormat()).append(", duration=").
-                    append(getDurationInMilliseconds()).append(", bit_rate=").append(getBitrate()).append("}");
+            sb.append("format={").append("format_name=").append(getFormat())
+                    .append(", duration=").append(getDurationInMilliseconds())
+                    .append(", bit_rate=").append(getBitrate()).append("}");
             // 视频
             if (hasVideo()) {
-                sb.append(", video={").append("codec_name=").append(getVideoCodec()).append(", profile=").
-                        append(getVideoProfile()).append(", pix_fmt=").append(getVideoPixFmt()).append(", size=").
-                        append(getSize()).append(", fps=").append(getAvgFps()).append(", bit_rate=").
-                        append(getVideoBitrate()).append("}");
+                sb.append(", video={").append("codec_name=").append(getVideoCodec())
+                        .append(", profile=").append(getVideoProfile())
+                        .append(", pix_fmt=").append(getVideoPixFmt())
+                        .append(", field_order=").append(getFieldOrder())
+                        .append(", size=").append(getSize())
+                        .append(", fps=").append(getAvgFps())
+                        .append(", bit_rate=").append(getVideoBitrate()).append("}");
             }
             // 音频
             if (hasAudio()) {
-                sb.append(", audio={").append("codec_name=").append(getAudioCodec()).append(", sample_rate=").
-                        append(getSampleRate()).append(", channels=").append(getChannels()).append(", bit_rate=").
-                        append(getAudioBitrate()).append("}");
+                sb.append(", audio={").append("codec_name=").append(getAudioCodec())
+                        .append(", sample_rate=").append(getSampleRate())
+                        .append(", channels=").append(getChannels())
+                        .append(", bit_rate=").append(getAudioBitrate()).append("}");
             }
             return sb.toString();
         }

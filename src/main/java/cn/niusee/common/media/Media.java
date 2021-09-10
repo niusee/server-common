@@ -92,7 +92,7 @@ public class Media {
         private double duration;
 
         /**
-         * 视频的扫描方式。progressive：逐航扫描。‘tt’、‘bb’、‘tb’、‘bt’：隔行扫描
+         * 视频的扫描方式。progressive：逐行扫描。‘tt’、‘bb’、‘tb’、‘bt’：隔行扫描
          */
         private String field_order;
 
@@ -162,6 +162,11 @@ public class Media {
 
         public boolean isProgressiveVideo() {
             return "progressive".equals(field_order);
+        }
+
+        public boolean isInterlacedVideo() {
+            return "tt".equals(field_order) || "bb".equals(field_order) || "tb".equals(field_order)
+                    || "bt".equals(field_order);
         }
 
         @Override
