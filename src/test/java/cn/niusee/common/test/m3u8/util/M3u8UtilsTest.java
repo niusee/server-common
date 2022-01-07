@@ -8,7 +8,6 @@ package cn.niusee.common.test.m3u8.util;
 import cn.niusee.common.m3u8.M3u8ParseException;
 import cn.niusee.common.m3u8.Playlist;
 import cn.niusee.common.m3u8.util.M3u8Utils;
-import cn.niusee.common.utils.HttpUtils;
 import junit.framework.TestCase;
 
 import java.io.IOException;

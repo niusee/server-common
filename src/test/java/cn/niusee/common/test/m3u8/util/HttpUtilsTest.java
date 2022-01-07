@@ -5,9 +5,7 @@
  */
 package cn.niusee.common.test.m3u8.util;
 
-import cn.niusee.common.media.SimpleMediaInfo;
-import cn.niusee.common.media.util.SimpleMediaInfoUtils;
-import cn.niusee.common.utils.HttpUtils;
+import cn.niusee.common.util.HttpUtils;
 import junit.framework.TestCase;
 
 /**

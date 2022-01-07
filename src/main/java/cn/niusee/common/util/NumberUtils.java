@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.utils;
+package cn.niusee.common.util;
 
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  *
  * @author Qianliang Zhang
  */
-public final class NumberUtils {
+public class NumberUtils {
 
     // 防止继承
     private NumberUtils() {
