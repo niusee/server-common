@@ -5,6 +5,7 @@
  */
 package cn.niusee.common.test.taskpools;
 
+import cn.niusee.common.logger.LoggerHelper;
 import cn.niusee.common.taskpools.retrytask.IRetryTask;
 import cn.niusee.common.taskpools.retrytask.OnRetryTaskCallback;
 import cn.niusee.common.taskpools.retrytask.SimpleRetryTaskExecutors;
@@ -20,10 +21,12 @@ import java.util.List;
  */
 public class RetryTaskExecutorsTest extends TestCase {
 
+    private static final LoggerHelper log = new LoggerHelper(RetryTaskExecutorsTest.class);
+
     public void testTaskExecutors() {
         List<String> tasks = new ArrayList<>(20);
         SimpleRetryTaskExecutors executors = new SimpleRetryTaskExecutors("RetryTest", 3);
-        for (int i = 1; i <= 20; i++) {
+        for (int i = 1; i <= 100; i++) {
             final int index = i;
             tasks.add(executors.executeTask(new IRetryTask() {
 
@@ -42,9 +45,9 @@ public class RetryTaskExecutorsTest extends TestCase {
                 @Override
                 public boolean run() {
                     currentTime++;
-                    System.out.println("test running: " + index + " times: " + currentTime);
+                    log.debug("test running: {} times: {}", index, currentTime);
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -54,35 +57,35 @@ public class RetryTaskExecutorsTest extends TestCase {
 
                 @Override
                 public void onTaskStart(IRetryTask task) {
-                    System.out.println("test start: " + index);
+                    log.debug("test start: {}", index);
                 }
 
                 @Override
                 public void onTaskRetry(IRetryTask task, int tryingTime) {
-                    System.out.println("test retry: " + index);
+                    log.debug("test retry: {}", index);
                 }
 
                 @Override
                 public void onTaskSuccess(IRetryTask task) {
-                    System.out.println("test complete: " + index);
+                    log.debug("test success: {}", index);
                 }
 
                 @Override
                 public void onTaskFail(IRetryTask task) {
-                    System.out.println("test error: " + index);
+                    log.debug("test error: {}", index);
                 }
             }));
         }
 
-        for (int i = 1; i <= 20; i++) {
-            if ( i % 2 != 0) {
-                System.out.println("cancel " + (i - 1));
-                executors.cancelTask(tasks.get(i));
+        for (int i = 1; i <= 100; i++) {
+            if ( i % 2 == 0) {
+                String taskId = tasks.get((i - 1));
+                executors.cancelTask(taskId);
             }
         }
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(60000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

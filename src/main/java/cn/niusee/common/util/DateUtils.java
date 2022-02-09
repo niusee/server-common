@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2016 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.utils;
+package cn.niusee.common.util;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author Qianliang Zhang
  */
-public final class DateUtils {
+public class DateUtils {
     /**
      * 防止继承
      */

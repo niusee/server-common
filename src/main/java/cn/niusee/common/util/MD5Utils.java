@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2016 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.utils;
+package cn.niusee.common.util;
 
 import java.io.File;
 import java.io.FileInputStream;

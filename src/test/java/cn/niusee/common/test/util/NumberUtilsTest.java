@@ -3,9 +3,9 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.test.utils;
+package cn.niusee.common.test.util;
 
-import cn.niusee.common.utils.NumberUtils;
+import cn.niusee.common.util.NumberUtils;
 import junit.framework.TestCase;
 
 /**

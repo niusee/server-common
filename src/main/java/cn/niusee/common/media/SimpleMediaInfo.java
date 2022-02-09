@@ -5,7 +5,7 @@
  */
 package cn.niusee.common.media;
 
-import cn.niusee.common.utils.NumberUtils;
+import cn.niusee.common.util.NumberUtils;
 
 import java.util.List;
 
