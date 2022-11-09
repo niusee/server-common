@@ -5,6 +5,7 @@
  */
 package cn.niusee.common.test.taskpools;
 
+import cn.niusee.common.logger.LoggerHelper;
 import cn.niusee.common.taskpools.INonCancelableTask;
 import cn.niusee.common.taskpools.ITask;
 import cn.niusee.common.taskpools.OnTaskCallback;
@@ -18,9 +19,11 @@ import junit.framework.TestCase;
  */
 public class TaskExecutorsTest extends TestCase {
 
-    public void testTaskExecutors() {
-        SimpleTaskExecutors executors = new SimpleTaskExecutors("Test", 3);
-        for (int i = 1; i <= 10; i++) {
+    private static final LoggerHelper log = new LoggerHelper(TaskExecutorsTest.class);
+
+    public void testTaskExecutors1() {
+        SimpleTaskExecutors executors = new SimpleTaskExecutors("Test-Executors", 3);
+        for (int i = 1; i <= 20; i++) {
             final int index = i;
             executors.executeTask(new ITask() {
                 @Override
@@ -30,28 +33,42 @@ public class TaskExecutorsTest extends TestCase {
 
                 @Override
                 public boolean run() {
-                    System.out.println("test running: " + index);
+                    log.debug("test running: {}", index);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     return index % 2 != 0;
                 }
             }, new OnTaskCallback() {
                 @Override
                 public void onTaskStart(ITask task) {
-                    System.out.println("test start: " + index);
+                    log.debug("test start: {}", index);
                 }
 
                 @Override
                 public void onTaskSuccess(ITask task) {
-                    System.out.println("test complete: " + index);
+                    log.debug("test success: {}", index);
                 }
 
                 @Override
                 public void onTaskFail(ITask task) {
-                    System.out.println("test error: " + index);
+                    log.debug("test error: {}", index);
                 }
             });
         }
 
-        for (int i = 11; i <= 20; i++) {
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testTaskExecutors2() {
+        SimpleTaskExecutors executors = new SimpleTaskExecutors("Test-NonCallback-Executors", 3);
+        for (int i = 1; i <= 20; i++) {
             final int index = i;
             executors.executeTaskWithoutCallback(new ITask() {
                 @Override
@@ -61,16 +78,19 @@ public class TaskExecutorsTest extends TestCase {
 
                 @Override
                 public boolean run() {
-                    System.out.println("test running: " + index);
+                    log.debug("test running: {}", index);
                     return true;
                 }
             });
         }
+    }
 
-        for (int i = 21; i <= 30; i++) {
+    public void testTaskExecutors3() {
+        SimpleTaskExecutors executors = new SimpleTaskExecutors("Test-WithoutCallback-Executors", 3);
+        for (int i = 1; i <= 20; i++) {
             final int index = i;
             executors.executeTaskWithoutCallback((INonCancelableTask) () -> {
-                System.out.println("test running: " + index);
+                log.debug("test running: {}", index);
                 return true;
             });
         }

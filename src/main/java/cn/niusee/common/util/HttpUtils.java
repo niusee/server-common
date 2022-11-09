@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2021 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.utils;
+package cn.niusee.common.util;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

@@ -7,7 +7,7 @@ package cn.niusee.common.m3u8.util;
 
 import cn.niusee.common.httpclient.SingletonHttpClient;
 import cn.niusee.common.m3u8.*;
-import cn.niusee.common.utils.HttpUtils;
+import cn.niusee.common.util.HttpUtils;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import spark.utils.StringUtils;

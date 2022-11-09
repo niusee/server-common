@@ -56,6 +56,10 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
 
         @Override
         public void run() {
+            // 在任务开始时取消，任务开始后，就运行一遍
+            if (cancel) {
+                return;
+            }
             if (onRetryTaskCallback != null) {
                 // 第一次运行，回调开始
                 if (currentRunningTimes == 0) {
@@ -66,7 +70,7 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
             }
             boolean result = task.run();
             // 运行不成功，并且没到重试次数
-            if (!result && !cancel && currentRunningTimes < task.getRetryTimes()) {
+            if (!result && currentRunningTimes < task.getRetryTimes()) {
                 currentRunningTimes++;
                 // 重新运行
                 retryTask(this);
@@ -92,8 +96,6 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
         private void cancel() {
             cancel = true;
             task.cancel();
-            // 下一个任务
-            distributeNextTask();
         }
     }
 
@@ -141,8 +143,8 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
         this.tag = tag + "-";
         this.coreTaskSize = corePoolSize;
         retryTaskQueue = new ConcurrentLinkedQueue<>();
-        taskExecutors = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         runningTaskPool = new ConcurrentHashMap<>(corePoolSize);
+        taskExecutors = (ThreadPoolExecutor) Executors.newCachedThreadPool();
     }
 
     /**
@@ -213,6 +215,8 @@ public class SimpleRetryTaskExecutors implements IRetryTaskExecutors {
         // 检查是否在运行队列，移除
         if (runningTaskPool.containsKey(taskId)) {
             runningTaskPool.remove(taskId).cancel();
+            // 下一个任务
+            distributeNextTask();
         }
     }
 }

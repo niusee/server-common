@@ -3,7 +3,7 @@
  *
  * Copyright 2015-2019 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.utils;
+package cn.niusee.common.util;
 
 import java.lang.management.ManagementFactory;
 
@@ -12,7 +12,7 @@ import java.lang.management.ManagementFactory;
  *
  * @author Qianliang Zhang
  */
-public final class ProcessUtils {
+public class ProcessUtils {
 
     /**
      * 获取进程的ID
@@ -44,7 +44,7 @@ public final class ProcessUtils {
      *
      * @return Shell运行环境命令
      */
-    public static String[] getShellCommands() {
+    public static String[] getShellEnvCommands() {
         String os = getOs();
         if ("win".equals(os)) {
             return new String[]{"cmd.exe", "/c"};

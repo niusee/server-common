@@ -3,14 +3,14 @@
  *
  * Copyright 2015-2017 by Niusee.inc. All rights reserved.
  */
-package cn.niusee.common.utils;
+package cn.niusee.common.util;
 
 /**
  * 时间工具类
  *
  * @author Qianliang Zhang
  */
-public final class TimeUtils {
+public class TimeUtils {
 
     private TimeUtils() {
         throw new RuntimeException("No implements");
